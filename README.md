@@ -1,6 +1,6 @@
 #edmondclient
 
-29/07/25 - project brief
+**29/07/25 - project brief**
 
 **OVERVIEW**
 
@@ -25,7 +25,7 @@ The task is to produce a social network aimed at creating a global community whe
 
 **30/07/25 - Project Design**
 
-**overview**
+**OVERVIEW**
 
 Went over website design. E.g colour scheme, typography, icon styles/set.
 
