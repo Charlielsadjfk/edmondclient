@@ -27,7 +27,7 @@ The task is to produce a social network aimed at creating a global community whe
 
 **OVERVIEW**
 
-Went over website design. E.g colour scheme, typography, icon styles/set.
+Went over website design. E.g colour scheme, typography, icon styles/set, layout/wireframe
 
 
 Colour scheme
@@ -43,4 +43,8 @@ Typography/Font
 Icon style/set
 
 <img width="640" height="480" alt="image" src="https://github.com/user-attachments/assets/6182efe2-82e3-4b0c-ad0e-2ad1e4693ed1" />
+
+Website Wireframe
+
+
 
