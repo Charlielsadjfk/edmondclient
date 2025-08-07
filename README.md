@@ -32,7 +32,7 @@ Went over website design. E.g colour scheme, typography, icon styles/set, layout
 
 Colour scheme
 
-<img width="1247" height="573" alt="image" src="https://github.com/user-attachments/assets/6305b521-196c-4cb9-b45f-7113c87a3f7a" />
+<img width="1247" height="574" alt="image" src="https://github.com/user-attachments/assets/a9935293-db43-4ac9-a823-f7a20332c303" />
 
 
 Typography/Font
@@ -43,6 +43,7 @@ Typography/Font
 Icon style/set
 
 <img width="640" height="480" alt="image" src="https://github.com/user-attachments/assets/6182efe2-82e3-4b0c-ad0e-2ad1e4693ed1" />
+
 
 Website Wireframe
 
