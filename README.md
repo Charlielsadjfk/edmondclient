@@ -32,7 +32,7 @@ Went over website design. E.g colour scheme, typography, icon styles/set, layout
 
 Colour scheme
 
-<img width="624" height="285" alt="image" src="https://github.com/user-attachments/assets/c5f4332c-8c94-4221-871d-4e3de7cb9e37" />
+<img width="1247" height="573" alt="image" src="https://github.com/user-attachments/assets/6305b521-196c-4cb9-b45f-7113c87a3f7a" />
 
 
 Typography/Font
