@@ -1,4 +1,4 @@
-<img width="1082" height="678" alt="image" src="https://github.com/user-attachments/assets/872ec9a9-1cc5-43b0-8cd3-ea3593116b0a" />#edmondclient
+#edmondclient
 
 **29/07/25 - project brief**
 
