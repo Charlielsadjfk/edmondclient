@@ -1,4 +1,4 @@
-#edmondclient
+<img width="1082" height="678" alt="image" src="https://github.com/user-attachments/assets/872ec9a9-1cc5-43b0-8cd3-ea3593116b0a" />#edmondclient
 
 **29/07/25 - project brief**
 
@@ -47,5 +47,22 @@ Icon style/set
 
 Website Wireframe
 
+[insert image in a bit]
+
+
+
+**07/09/2025 - Alternate design**
+
+**overview**
+
+Went over an alternate design with changes to usage of colour scheme and post design.
+
+
+Main/Home page
+
+<img width="1082" height="678" alt="image" src="https://github.com/user-attachments/assets/d4cb2281-87e1-4848-a38c-0a4a4de88480" />
+
+
+Profile page
 
 
