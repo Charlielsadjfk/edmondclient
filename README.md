@@ -65,4 +65,11 @@ Main/Home page
 
 Profile page
 
+<img width="1076" height="677" alt="image" src="https://github.com/user-attachments/assets/4c6fec21-58dc-43a9-ae61-c53835dc865a" />
+
+
+Movie Review Page
+
+<img width="1085" height="653" alt="image" src="https://github.com/user-attachments/assets/e67b5351-9741-48c8-82ad-9f31e2484d8b" />
+
 
