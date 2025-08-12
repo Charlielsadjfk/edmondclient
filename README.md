@@ -73,3 +73,54 @@ Movie Review Page
 <img width="1085" height="653" alt="image" src="https://github.com/user-attachments/assets/e67b5351-9741-48c8-82ad-9f31e2484d8b" />
 
 
+**12/08/2025** - test cases and algorithim design
+
+**algorithim**
+
+[insert image]
+
+
+**test cases**
+
+test case id - 1
+
+Test case name - Testing main functionality of login page.
+
+Preconditions - user has registered account, already in login page
+
+Test Steps - 
+
+1. enter correct email into the email text box
+2. enter correct password into the password text box
+3. press the sign in button
+
+Expected result - user successfully logs in, given they entered correct details
+
+Actual result - 
+
+Pass/Fail - 
+
+priority - high
+
+
+Test case id - 2
+
+Test case name - testing forgot password functionality
+
+Preconditions - user has registered account, already in login page
+
+Test steps -
+1. enter correct email into the email text box
+2. enter an incorrect password into the password text box
+3. press sign in button
+4. press the expected "forgot password" button
+
+Expected result - user is directed to the forgot password page
+
+Actual result -
+
+Pass/Fail - 
+
+Priorirty - medium
+
+
