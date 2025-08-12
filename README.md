@@ -72,13 +72,15 @@ Movie Review Page
 
 <img width="1085" height="653" alt="image" src="https://github.com/user-attachments/assets/e67b5351-9741-48c8-82ad-9f31e2484d8b" />
 
+|
 
-**12/08/2025** - test cases and algorithim design
+**12/08/2025 - test cases and algorithim design**
 
 **algorithim**
 
 [insert image]
 
+|
 
 **test cases**
 
@@ -102,6 +104,7 @@ Pass/Fail -
 
 priority - high
 
+|
 
 Test case id - 2
 
