@@ -9,9 +9,10 @@
     />
     <h1 class="card-name">{{ row[1] }}</h1>
     <p class="card-about">{{ row[3] }}</p>
-    <a class="card-link" href="{{ row[2] }}"
-      ><button class="btn">Read More</button></a
-    >
+    <a class="card-link" href="{{ row[2] }}">
+      <button class="btn">Read More</button>
+    </a>
   </div>
+  {% endfor %}
 </div>
-{% endfor %} {% endblock %}
+{% endblock %}
