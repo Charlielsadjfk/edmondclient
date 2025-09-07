@@ -7,120 +7,99 @@
 }
 
 body {
-  background: #fdfdfd;
+  background: #021112;
   font-family: "Nunito", sans-serif;
   font-size: 1rem;
 }
 
+/* ─── Main content ───────────────────────── */
 main {
   max-width: 900px;
   margin: auto;
   padding: 0.5rem;
   text-align: center;
+  margin-left: 260px; /* account for sidebar */
 }
 
+/* ─── Sidebar Nav ───────────────────────── */
 nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background-color: #021112;
+  border-right: 1px solid #cdecf6;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+nav h1 {
+  color: #cdecf6;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-top: 0.5rem;
 }
 
 nav img {
-  height: 100px;
+  height: 150px;
+  margin: 0 auto 2rem auto;
 }
 
 nav ul {
   list-style: none;
   display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* so profile button sits at bottom */
+  padding: 0;
+  margin: 0;
 }
 
 nav li {
-  margin-right: 1rem;
+  margin: 0.5rem 0;
+  width: 100%;
 }
 
+/* Make ALL nav links flex rows for consistent alignment */
 nav ul li a {
-  text-decoration-line: none;
-  text-transform: uppercase;
-  color: #393b45;
+  display: flex;
+  align-items: center; /* vertical center everything */
+  justify-content: center;
+  gap: 0.75rem; /* spacing between icon & text */
+  text-decoration: none;
+  color: #cdecf6;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 25px;
+  transition: background 0.2s, color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1; /* prevent text from pushing height */
 }
 
 nav ul li a:hover {
-  color: #14e6dd;
+  background-color: rgba(205, 236, 246, 0.1);
+  color: #1da1f2;
 }
 
-nav h1 {
-  color: #106d69;
-  margin-bottom: 0.5rem;
+nav ul .profile-button {
+  margin-top: auto;
 }
 
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  grid-gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding: 1rem 0;
+nav ul .profile-button a {
+  font-size: 1em;
+  font-weight: bold;
 }
 
-.card {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 17rem;
-  background: #fff;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  border-radius: 10px;
-  margin: auto;
-  overflow: hidden;
+nav ul .profile-button a:hover {
+  background-color: rgba(29, 161, 242, 0.1);
+  color: #1da1f2;
 }
 
-.card-image {
-  width: 100%;
-  height: 15rem;
-  object-fit: cover;
-}
-
-.card-name {
-  color: #222;
-  font-weight: 700;
-  text-transform: capitalize;
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
-}
-
-.card-about {
-  text-overflow: ellipsis;
-  width: 15rem;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-bottom: 1rem;
-}
-
-.btn {
-  border: none;
-  background: none;
-  border-radius: 5px;
-  box-shadow: 1px 1px 2px rgba(21, 21, 21, 0.1);
-  cursor: pointer;
-  font-size: 1.25rem;
-  margin: 0 1rem;
-  padding: 0.25rem 2rem;
-  transition: all 0.25s ease-in-out;
-  background: hsl(110, 21%, 93%);
-  color: hsl(141, 100%, 22%);
-  margin-bottom: 1rem;
-}
-
-.btn:focus,
-.btn:hover {
-  box-shadow: 1px 1px 2px rgba(21, 21, 21, 0.2);
-  background: hsl(111, 21%, 86%);
-}
-
-.about-container {
-  font-size: 1.25rem;
-  margin-top: 2rem;
-  text-align: justify;
-  text-justify: inter-word;
+.profile-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
 }
