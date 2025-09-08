@@ -1,0 +1,93 @@
+/* ─── Right Newsbar Styling (Twitter-style) ─────────────────────────── */
+.newsbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 350px; /* Twitter-like width */
+  background-color: #021112;
+  border-left: 1px solid #cdecf6;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.news-section {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.news-section h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #cdecf6;
+  margin-bottom: 1rem;
+}
+
+.news-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.news-section ul li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(205, 236, 246, 0.2);
+}
+
+.news-section ul li:last-child {
+  border-bottom: none;
+}
+
+.news-section .topic {
+  font-size: 0.9rem;
+  color: #1da1f2; /* Twitter blue */
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.news-section p {
+  font-size: 0.95rem;
+  color: #cdecf6;
+}
+
+/* Scrollbar tweaks for nicer UX */
+.newsbar::-webkit-scrollbar {
+  width: 8px;
+}
+.newsbar::-webkit-scrollbar-thumb {
+  background: rgba(205, 236, 246, 0.3);
+  border-radius: 4px;
+}
+.newsbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(29, 161, 242, 0.5);
+}
+
+/* ─── Search Bar at top of newsbar ───────────────────────── */
+.news-search {
+  margin-bottom: 1rem;
+}
+
+.news-search input {
+  width: 100%;
+  padding: 0.75rem 1rem; /* taller padding */
+  border-radius: 9999px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-family: "Nunito", sans-serif; /* match rest of site */
+  font-size: 1rem; /* slightly bigger for consistency */
+  outline: none;
+  transition: background 0.2s;
+}
+
+.news-search input::placeholder {
+  color: #cdecf6;
+  font-family: "Nunito", sans-serif;
+}
+
+.news-search input:focus {
+  background-color: rgba(29, 161, 242, 0.1);
+}

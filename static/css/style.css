@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap");
 
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -7,99 +8,162 @@
 }
 
 body {
-  background: #021112;
   font-family: "Nunito", sans-serif;
-  font-size: 1rem;
+  background: #021112;
+  color: #fff;
 }
 
-/* ─── Main content ───────────────────────── */
-main {
-  max-width: 900px;
-  margin: auto;
-  padding: 0.5rem;
-  text-align: center;
-  margin-left: 260px; /* account for sidebar */
-}
-
-/* ─── Sidebar Nav ───────────────────────── */
+/* Sidebar */
 nav {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  width: 250px;
-  background-color: #021112;
-  border-right: 1px solid #cdecf6;
+  width: 350px; /* keep the larger width you wanted */
+  background: #021112;
+  border-right: 1px solid #38444d;
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
+  padding: 0; /* logo now spans full width */
 }
 
-nav h1 {
-  color: #cdecf6;
-  font-size: 1.3rem;
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
+/* Logo that fills the sidebar width */
 nav img {
-  height: 150px;
-  margin: 0 auto 2rem auto;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
 }
 
+/* Title under logo */
+nav h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  color: #cdecf6;
+  margin: 0.75rem 0 1rem;
+}
+
+/* Menu list */
 nav ul {
   list-style: none;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* so profile button sits at bottom */
-  padding: 0;
+  flex: 1;
+  padding: 0 24px; /* horizontal padding for pills */
   margin: 0;
 }
 
-nav li {
-  margin: 0.5rem 0;
+/* Each list item full width */
+nav ul li {
   width: 100%;
+  margin: 0.5rem 0;
 }
 
-/* Make ALL nav links flex rows for consistent alignment */
+/* BUTTONS: fixed height so content can be perfectly centered */
 nav ul li a {
   display: flex;
-  align-items: center; /* vertical center everything */
-  justify-content: center;
-  gap: 0.75rem; /* spacing between icon & text */
+  align-items: center; /* vertical center */
+  justify-content: center; /* center text inside pills */
   text-decoration: none;
-  color: #cdecf6;
-  font-weight: bold;
-  font-size: 1.1rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 25px;
-  transition: background 0.2s, color 0.2s;
-  width: 100%;
+  color: #e7e9ea;
+  font-size: 1.15rem;
+  font-weight: 600;
+  height: 56px; /* fixed height ensures vertical centering */
+  padding: 0 1rem; /* horizontal padding preserved */
+  border-radius: 9999px; /* pill shape */
+  transition: background 0.18s, color 0.18s;
   box-sizing: border-box;
-  line-height: 1; /* prevent text from pushing height */
 }
 
+/* Hover */
 nav ul li a:hover {
-  background-color: rgba(205, 236, 246, 0.1);
-  color: #1da1f2;
+  background: #041a1b;
 }
 
+/* Profile button sits at the bottom */
 nav ul .profile-button {
   margin-top: auto;
+  padding: 12px; /* spacing around the profile area */
 }
 
+/* Profile anchor: same height as other buttons, but left-aligned content */
 nav ul .profile-button a {
-  font-size: 1em;
-  font-weight: bold;
+  display: flex;
+  align-items: center; /* vertical center */
+  justify-content: flex-start; /* avatar + text start at left */
+  gap: 12px; /* spacing between avatar and text */
+  height: 76px; /* match other buttons' height */
+  padding: 0.25rem 1rem; /* small vertical padding, horizontal consistent */
+  text-decoration: none;
+  color: #e7e9ea;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  transition: background 0.18s, color 0.18s;
 }
 
+/* Hover effect for profile */
 nav ul .profile-button a:hover {
-  background-color: rgba(29, 161, 242, 0.1);
-  color: #1da1f2;
+  background: rgba(29, 161, 242, 0.08);
 }
 
+/* Avatar: fixed box, centered by the flex container */
 .profile-icon {
-  width: 32px;
-  height: 32px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 40px; /* fixed size (no shrinking) */
+  display: block;
+  margin: 0; /* remove stray margins */
+  align-self: center; /* ensure avatar always centered vertically */
+}
+
+/* Profile text stack (name + handle) vertically centered */
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertically center the two lines inside the 56px row */
+  line-height: 1;
+  margin: 0;
+}
+
+.profile-text .name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0;
+}
+
+.profile-text .handle {
+  font-size: 0.9rem;
+  color: #8899a6;
+  margin: 0;
+}
+
+/* Main content area (center feed between sidebar + newsbar) */
+main {
+  margin-left: 260px; /* space for left sidebar*/
+  margin-right: 370px; /* space for right newsbar */
+  padding: 1rem;
+  max-width: 700px; /* keeps the feed narrow like Twitter */
+}
+
+/* ─── Post Button Styling ───────────────────────── */
+nav ul li.post-button a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  background-color: #ffffff; /* solid background */
+  color: #021112; /* dark text */
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 9999px; /* keep the pill shape */
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+nav ul li.post-button a:hover {
+  background-color: #e0e0e0; /* slightly darker on hover */
 }

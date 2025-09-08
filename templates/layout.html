@@ -19,10 +19,49 @@
     />
   </head>
 
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/rightstyle.css') }}"
+  />
+
   <body>
-    <main>
-      {% include "partials/menu.html" %} {% block content %}{% endblock %}
-    </main>
+    <div class="layout">
+      <!-- Left Sidebar -->
+      {% include "partials/menu.html" %}
+
+      <!-- Main Content -->
+      <main>{% block content %}{% endblock %}</main>
+
+      <!-- Right News Bar -->
+      <aside class="newsbar">
+        <!-- Search Bar -->
+        <div class="news-search">
+          <input
+            type="text"
+            placeholder="Search Twitter-style..."
+            id="news-search-input"
+          />
+        </div>
+
+        <div class="news-section">
+          <h2>What’s happening</h2>
+          <ul>
+            <li>
+              <span class="topic">#Tech</span>
+              <p>AI breakthroughs dominate 2025</p>
+            </li>
+            <li>
+              <span class="topic">#Sports</span>
+              <p>Grand Prix this weekend 🔥</p>
+            </li>
+            <li>
+              <span class="topic">#Coding</span>
+              <p>Flask PWAs gaining popularity</p>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
 
     <!-- JS -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
