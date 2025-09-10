@@ -1,0 +1,50 @@
+{% extends "layout.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/profilestyle.css') }}"
+/>
+{% endblock %} {% block content %}
+<main class="profile-page">
+  <!-- Banner & Avatar -->
+  <div class="profile-header">
+    <div class="profile-banner"></div>
+    <div class="profile-avatar-wrapper">
+      <img
+        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        class="profile-avatar"
+        alt="Profile Avatar"
+      />
+    </div>
+  </div>
+
+  <!-- Content aligned between sidebars -->
+  <div class="profile-content">
+    <!-- Profile Info -->
+    <div class="profile-info">
+      <h2 class="profile-name">Your Name</h2>
+      <p class="profile-handle">@username</p>
+      <p class="profile-bio">
+        This is your bio. Share something about yourself, your work, or your
+        interests.
+      </p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="profile-tabs">
+      <button class="active">Posts</button>
+      <button>Replies</button>
+      <button>Media</button>
+    </div>
+
+    <!-- Feed -->
+    <div class="profile-feed">
+      <div class="post-card">
+        <p>🚀 First post on my new profile page!</p>
+      </div>
+      <div class="post-card">
+        <p>🔥 Flask PWA project coming together really well.</p>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

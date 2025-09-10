@@ -1,0 +1,105 @@
+/* ─── Profile Page Styling ───────────────────────── */
+
+/* Banner spans full width */
+.profile-header {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: #15202b;
+  border-bottom: 1px solid #38444d;
+}
+
+.profile-banner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1da1f2, #0d8ddb);
+}
+
+.profile-avatar-wrapper {
+  position: absolute;
+  bottom: -60px;
+  left: 20px;
+  border-radius: 50%;
+  border: 4px solid #021112;
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Align content between sidebars */
+.profile-content {
+  padding: 0 20px; /* add some spacing inside main */
+}
+
+/* Profile Info */
+.profile-info {
+  margin-bottom: 20px;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.profile-handle {
+  font-size: 1rem;
+  color: #8899a6;
+  margin-bottom: 10px;
+}
+
+.profile-bio {
+  font-size: 1rem;
+  color: #cdecf6;
+  margin-bottom: 20px;
+}
+
+/* Tabs */
+.profile-tabs {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #38444d;
+  margin-bottom: 1rem;
+}
+
+.profile-tabs button {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #8899a6;
+  cursor: pointer;
+  transition: color 0.2s, border-bottom 0.2s;
+}
+
+.profile-tabs button.active {
+  color: #1da1f2;
+  border-bottom: 3px solid #1da1f2;
+  font-weight: 700;
+}
+
+.profile-tabs button:hover {
+  color: #1da1f2;
+}
+
+/* Posts / Feed */
+.profile-feed {
+  padding: 0;
+}
+
+.post-card {
+  padding: 1rem;
+  border-bottom: 1px solid #38444d;
+}
+
+.post-card p {
+  font-size: 1rem;
+  color: #e7e9ea;
+}

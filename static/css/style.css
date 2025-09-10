@@ -19,9 +19,9 @@ nav {
   top: 0;
   left: 0;
   height: 100%;
-  width: 350px; /* keep the larger width you wanted */
+  width: 400px; /* keep the larger width you wanted */
   background: #021112;
-  border-right: 1px solid #38444d;
+  border-right: 1px solid #cdecf6;
   display: flex;
   flex-direction: column;
   padding: 0; /* logo now spans full width */
@@ -37,8 +37,8 @@ nav img {
 
 /* Title under logo */
 nav h1 {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 200;
   text-align: center;
   color: #cdecf6;
   margin: 0.75rem 0 1rem;
@@ -66,7 +66,7 @@ nav ul li a {
   align-items: center; /* vertical center */
   justify-content: center; /* center text inside pills */
   text-decoration: none;
-  color: #e7e9ea;
+  color: #cdecf6;
   font-size: 1.15rem;
   font-weight: 600;
   height: 56px; /* fixed height ensures vertical centering */
@@ -131,7 +131,7 @@ nav ul .profile-button a:hover {
 .profile-text .name {
   font-weight: 700;
   font-size: 1.25rem;
-  color: #fff;
+  color: #cdecf6;
   margin: 0;
 }
 
@@ -143,8 +143,8 @@ nav ul .profile-button a:hover {
 
 /* Main content area (center feed between sidebar + newsbar) */
 main {
-  margin-left: 260px; /* space for left sidebar*/
-  margin-right: 370px; /* space for right newsbar */
+  margin-left: 400px; /* space for left sidebar*/
+  margin-right: 400px; /* space for right newsbar */
   padding: 1rem;
   max-width: 700px; /* keeps the feed narrow like Twitter */
 }

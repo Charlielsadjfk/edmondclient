@@ -4,7 +4,7 @@
   top: 0;
   right: 0;
   height: 100%;
-  width: 350px; /* Twitter-like width */
+  width: 400px; /* Twitter-like width */
   background-color: #021112;
   border-left: 1px solid #cdecf6;
   padding: 1rem;
@@ -12,7 +12,7 @@
 }
 
 .news-section {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #041a1b;
   border-radius: 16px;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -33,7 +33,7 @@
 
 .news-section ul li {
   padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(205, 236, 246, 0.2);
+  border-bottom: 1px solid #cdecf6;
 }
 
 .news-section ul li:last-child {
@@ -46,6 +46,14 @@
   font-weight: bold;
   display: block;
   margin-bottom: 0.25rem;
+}
+
+.news-section .showmore {
+  font-size: 0.95rem;
+  color: #1da1f2; /* Twitter blue */
+  font-weight: bold;
+  display: block;
+  margin-top: 1rem;
 }
 
 .news-section p {
@@ -72,10 +80,10 @@
 
 .news-search input {
   width: 100%;
-  padding: 0.75rem 1rem; /* taller padding */
+  padding: 1rem 1rem; /* taller padding */
   border-radius: 9999px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #041a1b;
   color: #fff;
   font-family: "Nunito", sans-serif; /* match rest of site */
   font-size: 1rem; /* slightly bigger for consistency */
@@ -86,6 +94,8 @@
 .news-search input::placeholder {
   color: #cdecf6;
   font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  align-self: center;
 }
 
 .news-search input:focus {
