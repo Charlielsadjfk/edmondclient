@@ -1,169 +1,134 @@
-@import url("https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap");
-
-/* Reset */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
-
 body {
-  font-family: "Nunito", sans-serif;
-  background: #021112;
-  color: #fff;
-}
-
-/* Sidebar */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 400px; /* keep the larger width you wanted */
-  background: #021112;
-  border-right: 1px solid #cdecf6;
-  display: flex;
-  flex-direction: column;
-  padding: 0; /* logo now spans full width */
-}
-
-/* Logo that fills the sidebar width */
-nav img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  display: block;
-}
-
-/* Title under logo */
-nav h1 {
-  font-size: 2rem;
-  font-weight: 200;
-  text-align: center;
-  color: #cdecf6;
-  margin: 0.75rem 0 1rem;
-}
-
-/* Menu list */
-nav ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 0 24px; /* horizontal padding for pills */
-  margin: 0;
-}
-
-/* Each list item full width */
-nav ul li {
-  width: 100%;
-  margin: 0.5rem 0;
-}
-
-/* BUTTONS: fixed height so content can be perfectly centered */
-nav ul li a {
-  display: flex;
-  align-items: center; /* vertical center */
-  justify-content: center; /* center text inside pills */
-  text-decoration: none;
-  color: #cdecf6;
-  font-size: 1.15rem;
-  font-weight: 600;
-  height: 56px; /* fixed height ensures vertical centering */
-  padding: 0 1rem; /* horizontal padding preserved */
-  border-radius: 9999px; /* pill shape */
-  transition: background 0.18s, color 0.18s;
-  box-sizing: border-box;
-}
-
-/* Hover */
-nav ul li a:hover {
-  background: #041a1b;
-}
-
-/* Profile button sits at the bottom */
-nav ul .profile-button {
-  margin-top: auto;
-  padding: 12px; /* spacing around the profile area */
-}
-
-/* Profile anchor: same height as other buttons, but left-aligned content */
-nav ul .profile-button a {
-  display: flex;
-  align-items: center; /* vertical center */
-  justify-content: flex-start; /* avatar + text start at left */
-  gap: 12px; /* spacing between avatar and text */
-  height: 76px; /* match other buttons' height */
-  padding: 0.25rem 1rem; /* small vertical padding, horizontal consistent */
-  text-decoration: none;
+  background: #000;
   color: #e7e9ea;
-  border-radius: 9999px;
-  box-sizing: border-box;
-  transition: background 0.18s, color 0.18s;
+  font-family: Arial, sans-serif;
 }
 
-/* Hover effect for profile */
-nav ul .profile-button a:hover {
-  background: rgba(29, 161, 242, 0.08);
+.app-layout {
+  display: flex;
+  justify-content: center;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
-/* Avatar: fixed box, centered by the flex container */
-.profile-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex: 0 0 40px; /* fixed size (no shrinking) */
-  display: block;
-  margin: 0; /* remove stray margins */
-  align-self: center; /* ensure avatar always centered vertically */
-}
-
-/* Profile text stack (name + handle) vertically centered */
-.profile-text {
+/* LEFT MENU */
+.left-menu {
+  width: 260px;
+  border-right: 1px solid #2f3336;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* vertically center the two lines inside the 56px row */
-  line-height: 1;
-  margin: 0;
+  background: #000;
+}
+.logo-wrapper img {
+  width: 40px;
+  margin-bottom: 20px;
+}
+.menu-links {
+  display: flex;
+  flex-direction: column;
+}
+.menu-links a {
+  display: block;
+  width: 100%; /* take full width of sidebar */
+  padding: 14px 24px; /* vertical padding only, small horizontal for text breathing */
+  color: #e7e9ea;
+  font-size: 20px;
+  text-decoration: none;
+  border-radius: 0; /* no rounding so it spans edge-to-edge */
+  transition: background 0.2s;
+}
+.menu-links a:hover {
+  background: rgba(29, 155, 240, 0.1);
 }
 
-.profile-text .name {
+.tweet-btn {
+  display: block;
+  width: 100%; /* button spans full sidebar width */
+  margin: 20px 0;
+  background: #1da1f2;
+  color: #fff;
+  border: none;
+  padding: 14px 0;
+  border-radius: 9999px;
   font-weight: 700;
-  font-size: 1.25rem;
-  color: #cdecf6;
-  margin: 0;
+  font-size: 17px;
+  cursor: pointer;
 }
-
-.profile-text .handle {
-  font-size: 0.9rem;
-  color: #8899a6;
-  margin: 0;
-}
-
-/* Main content area (center feed between sidebar + newsbar) */
-main {
-  margin-left: 400px; /* space for left sidebar*/
-  margin-right: 400px; /* space for right newsbar */
-  padding: 1rem;
-  max-width: 700px; /* keeps the feed narrow like Twitter */
-}
-
-/* ─── Post Button Styling ───────────────────────── */
-nav ul li.post-button a {
+/* Mini profile at bottom */
+.profile-mini {
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 56px;
-  background-color: #ffffff; /* solid background */
-  color: #021112; /* dark text */
-  font-weight: 700;
-  font-size: 1.1rem;
-  border-radius: 9999px; /* keep the pill shape */
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  gap: 12px;
+  margin-top: auto;
+  width: 100%;
+  padding: 12px 24px; /* small inner padding but no outer gaps */
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.profile-mini:hover {
+  background: rgba(29, 155, 240, 0.1);
+}
+.profile-mini img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
-nav ul li.post-button a:hover {
-  background-color: #e0e0e0; /* slightly darker on hover */
+.profile-mini .name {
+  font-weight: bold;
+  display: block;
+}
+.profile-mini .handle {
+  font-size: 14px;
+  color: #71767b;
+}
+
+/* MAIN CENTER */
+.main-center {
+  width: 600px;
+  border-right: 1px solid #2f3336;
+  min-height: 100vh;
+  background: #000;
+}
+.main-content {
+  min-width: 500px; /* or any base width */
+}
+.right-bar {
+  width: 350px;
+  border-left: 1px solid #2f3336;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background: #000; /* dark background */
+}
+
+.page-wrapper {
+  display: grid;
+  grid-template-columns: 400px 1fr 350px; /* left sidebar | main feed | right sidebar */
+  width: 100%; /* span the entire viewport */
+  min-height: 100vh;
+}
+
+.profile-mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 24px;
+  text-decoration: none; /* remove default link underline */
+  color: inherit; /* inherit sidebar text color */
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.profile-mini:hover {
+  background: rgba(29, 155, 240, 0.1);
 }

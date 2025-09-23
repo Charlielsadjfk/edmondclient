@@ -1,0 +1,29 @@
+<aside class="left-menu">
+  <div class="logo-wrapper">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" />
+  </div>
+
+  <nav class="menu-links">
+    <a href="index.html"><i class="icon">🏠</i> Home</a>
+    <a href="#"><i class="icon">🔍</i> Explore</a>
+    <a href="#"><i class="icon">🔔</i> Notifications</a>
+    <a href="#"><i class="icon">✉️</i> Messages</a>
+    <a href="#"><i class="icon">🔖</i> Bookmarks</a>
+    <a href="#"><i class="icon">📋</i> Lists</a>
+    <a href="#"><i class="icon">•••</i> More</a>
+  </nav>
+
+  <button class="tweet-btn">Tweet</button>
+
+  <a href="{{ url_for('profile') }}" class="profile-mini">
+    <img
+      src="{{ url_for('static', filename='images/avatar.jpg') }}"
+      alt="User"
+    />
+    <div>
+      <span class="name">Your Name</span>
+      <span class="handle">@username</span>
+    </div>
+  </a>
+</aside>
+</aside>

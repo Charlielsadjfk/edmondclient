@@ -3,16 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}My Flask App{% endblock %}</title>
+    <title>{% block title %}Profile{% endblock %}</title>
 
-    <!-- Favicon -->
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="{{ url_for('static', filename='images/favicon.png') }}"
-    />
-
-    <!-- Base CSS -->
+    <!-- Shared CSS -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
@@ -21,24 +14,13 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/rightstyle.css') }}"
     />
-
-    <!-- Page-specific CSS/Head content -->
     {% block head %}{% endblock %}
   </head>
-
   <body>
-    <div class="layout">
-      <!-- Left Sidebar -->
-      {% include "partials/menu.html" %}
-
-      <!-- Main Content -->
-      <main>{% block content %}{% endblock %}</main>
-
-      <!-- Right News Bar -->
-      {% include "partials/newsbar.html" %}
+    <div class="page-wrapper">
+      {% include "menu.html" %}
+      <main class="main-center">{% block content %}{% endblock %}</main>
+      {% include "newsbar.html" %}
     </div>
-
-    <!-- JS -->
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>
 </html>

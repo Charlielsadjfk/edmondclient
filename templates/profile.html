@@ -4,47 +4,39 @@
   href="{{ url_for('static', filename='css/profilestyle.css') }}"
 />
 {% endblock %} {% block content %}
-<main class="profile-page">
-  <!-- Banner & Avatar -->
-  <div class="profile-header">
-    <div class="profile-banner"></div>
-    <div class="profile-avatar-wrapper">
+<div class="profile-wrapper">
+  <header class="profile-header">
+    <div class="banner"></div>
+    <div class="avatar-wrap">
       <img
         src="{{ url_for('static', filename='images/avatar.jpg') }}"
-        class="profile-avatar"
-        alt="Profile Avatar"
+        alt="Avatar"
       />
     </div>
-  </div>
+    <button class="edit-btn">Edit profile</button>
+  </header>
 
-  <!-- Content aligned between sidebars -->
-  <div class="profile-content">
-    <!-- Profile Info -->
-    <div class="profile-info">
-      <h2 class="profile-name">Your Name</h2>
-      <p class="profile-handle">@username</p>
-      <p class="profile-bio">
-        This is your bio. Share something about yourself, your work, or your
-        interests.
-      </p>
+  <section class="profile-info">
+    <h1>Your Name</h1>
+    <span class="handle">@username</span>
+    <p class="bio">Product Designer • Joined September 2011</p>
+    <div class="stats">
+      <span><strong>569</strong> Following</span>
+      <span><strong>72</strong> Followers</span>
     </div>
+  </section>
 
-    <!-- Tabs -->
-    <div class="profile-tabs">
-      <button class="active">Posts</button>
-      <button>Replies</button>
-      <button>Media</button>
-    </div>
+  <nav class="profile-tabs">
+    <button class="active">Tweets</button>
+    <button>Tweets & replies</button>
+    <button>Media</button>
+    <button>Likes</button>
+  </nav>
 
-    <!-- Feed -->
-    <div class="profile-feed">
-      <div class="post-card">
-        <p>🚀 First post on my new profile page!</p>
-      </div>
-      <div class="post-card">
-        <p>🔥 Flask PWA project coming together really well.</p>
-      </div>
-    </div>
-  </div>
-</main>
+  <section class="profile-feed">
+    <article class="tweet-card">
+      <div class="tweet-content">🚀 First tweet on my new profile layout!</div>
+    </article>
+  </section>
+</div>
 {% endblock %}

@@ -1,103 +1,74 @@
-/* ─── Right Newsbar Styling (Twitter-style) ─────────────────────────── */
-.newsbar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 400px; /* Twitter-like width */
-  background-color: #021112;
-  border-left: 1px solid #cdecf6;
-  padding: 1rem;
-  overflow-y: auto;
+.right-bar {
+  width: 350px;
+  padding: 20px;
+  background: #000;
+  color: #e7e9ea;
 }
-
-.news-section {
-  background-color: #041a1b;
-  border-radius: 16px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.news-section h2 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #cdecf6;
-  margin-bottom: 1rem;
-}
-
-.news-section ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.news-section ul li {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #cdecf6;
-}
-
-.news-section ul li:last-child {
-  border-bottom: none;
-}
-
-.news-section .topic {
-  font-size: 0.9rem;
-  color: #1da1f2; /* Twitter blue */
-  font-weight: bold;
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.news-section .showmore {
-  font-size: 0.95rem;
-  color: #1da1f2; /* Twitter blue */
-  font-weight: bold;
-  display: block;
-  margin-top: 1rem;
-}
-
-.news-section p {
-  font-size: 0.95rem;
-  color: #cdecf6;
-}
-
-/* Scrollbar tweaks for nicer UX */
-.newsbar::-webkit-scrollbar {
-  width: 8px;
-}
-.newsbar::-webkit-scrollbar-thumb {
-  background: rgba(205, 236, 246, 0.3);
-  border-radius: 4px;
-}
-.newsbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(29, 161, 242, 0.5);
-}
-
-/* ─── Search Bar at top of newsbar ───────────────────────── */
-.news-search {
-  margin-bottom: 1rem;
-}
-
-.news-search input {
+.search-box input {
   width: 100%;
-  padding: 1rem 1rem; /* taller padding */
+  padding: 12px 20px;
   border-radius: 9999px;
   border: none;
-  background-color: #041a1b;
-  color: #fff;
-  font-family: "Nunito", sans-serif; /* match rest of site */
-  font-size: 1rem; /* slightly bigger for consistency */
-  outline: none;
-  transition: background 0.2s;
+  background: #202327;
+  color: #e7e9ea;
 }
-
-.news-search input::placeholder {
-  color: #cdecf6;
-  font-family: "Nunito", sans-serif;
-  font-size: 1rem;
-  align-self: center;
+.trending,
+.follow-next {
+  background: #16181c;
+  border-radius: 16px;
+  margin-top: 20px;
+  padding: 16px;
 }
-
-.news-search input:focus {
-  background-color: rgba(29, 161, 242, 0.1);
+.trending h2,
+.follow-next h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+.trending ul {
+  list-style: none;
+}
+.trending li {
+  padding: 10px 0;
+  border-bottom: 1px solid #2f3336;
+  font-size: 14px;
+}
+.trending .topic {
+  color: #71767b;
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.show-more {
+  display: block;
+  color: #1da1f2;
+  text-decoration: none;
+  padding-top: 12px;
+}
+.follow-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.follow-card img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.follow-card button {
+  background: #e7e9ea;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.follow-card div {
+  flex: 1;
+}
+.follow-card span {
+  color: #71767b;
+  display: block;
+  font-size: 13px;
 }
