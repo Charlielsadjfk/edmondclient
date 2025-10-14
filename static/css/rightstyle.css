@@ -4,13 +4,30 @@
   background: #000;
   color: #e7e9ea;
 }
+.search-box {
+  position: relative;
+  width: 100%;
+}
+.search-box .search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
 .search-box input {
   width: 100%;
-  padding: 12px 20px;
+  padding: 12px 20px 12px 48px;
   border-radius: 9999px;
   border: none;
   background: #202327;
   color: #e7e9ea;
+}
+.search-box input:focus {
+  outline: 1px solid #1da1f2;
+  background: #000;
 }
 .trending,
 .follow-next {
@@ -32,6 +49,9 @@
   border-bottom: 1px solid #2f3336;
   font-size: 14px;
 }
+.trending li:last-child {
+  border-bottom: none;
+}
 .trending .topic {
   color: #71767b;
   display: block;
@@ -43,29 +63,46 @@
   color: #1da1f2;
   text-decoration: none;
   padding-top: 12px;
+  font-size: 15px;
+}
+.show-more:hover {
+  text-decoration: underline;
 }
 .follow-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
+  gap: 10px;
 }
-.follow-card img {
+.follow-card .follow-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
+  flex-shrink: 0;
 }
 .follow-card button {
   background: #e7e9ea;
   border: none;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
+  color: #000;
+  font-size: 14px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.follow-card button:hover {
+  background: #d7d9da;
 }
 .follow-card div {
   flex: 1;
+  min-width: 0;
+}
+.follow-card strong {
+  display: block;
+  color: #e7e9ea;
 }
 .follow-card span {
   color: #71767b;

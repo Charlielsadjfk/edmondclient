@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Profile{% endblock %}</title>
+    <title>{% block title %}Home / Twitter{% endblock %}</title>
 
     <!-- Shared CSS -->
     <link
@@ -13,6 +13,10 @@
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/rightstyle.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/home.css') }}"
     />
     {% block head %}{% endblock %}
   </head>

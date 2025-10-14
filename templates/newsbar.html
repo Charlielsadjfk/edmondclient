@@ -1,5 +1,10 @@
 <aside class="right-bar">
   <div class="search-box">
+    <img
+      src="https://img.icons8.com/forma-regular/20/71767b/search.png"
+      alt="search"
+      class="search-icon"
+    />
     <input type="text" placeholder="Search" />
   </div>
 
@@ -8,7 +13,7 @@
     <ul>
       <li>
         <span class="topic">COVID19 · Last night</span>
-        England’s Chief Medical Officer says the UK is at the most dangerous
+        England's Chief Medical Officer says the UK is at the most dangerous
         time of the pandemic
       </li>
       <li>
@@ -26,7 +31,10 @@
   <section class="follow-next">
     <h2>Who to follow</h2>
     <div class="follow-card">
-      <img src="{{ url_for('static', filename='images/avatar.jpg') }}" />
+      <img
+        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        class="follow-avatar"
+      />
       <div>
         <strong>Bessie Cooper</strong>
         <span>@alessandro</span>
@@ -34,7 +42,10 @@
       <button>Follow</button>
     </div>
     <div class="follow-card">
-      <img src="{{ url_for('static', filename='images/avatar.jpg') }}" />
+      <img
+        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        class="follow-avatar"
+      />
       <div>
         <strong>Jenny Wilson</strong>
         <span>@gabriel</span>

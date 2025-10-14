@@ -23,6 +23,7 @@ body {
   display: flex;
   flex-direction: column;
   background: #000;
+  padding: 20px;
 }
 .logo-wrapper img {
   width: 40px;
@@ -31,24 +32,34 @@ body {
 .menu-links {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 .menu-links a {
-  display: block;
-  width: 100%; /* take full width of sidebar */
-  padding: 14px 24px; /* vertical padding only, small horizontal for text breathing */
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 12px 16px;
   color: #e7e9ea;
   font-size: 20px;
   text-decoration: none;
-  border-radius: 0; /* no rounding so it spans edge-to-edge */
+  border-radius: 9999px;
   transition: background 0.2s;
 }
 .menu-links a:hover {
   background: rgba(29, 155, 240, 0.1);
 }
 
+/* Icon styling */
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
 .tweet-btn {
   display: block;
-  width: 100%; /* button spans full sidebar width */
+  width: 100%;
   margin: 20px 0;
   background: #1da1f2;
   color: #fff;
@@ -58,7 +69,12 @@ body {
   font-weight: 700;
   font-size: 17px;
   cursor: pointer;
+  transition: background 0.2s;
 }
+.tweet-btn:hover {
+  background: #1a8cd8;
+}
+
 /* Mini profile at bottom */
 .profile-mini {
   display: flex;
@@ -66,22 +82,27 @@ body {
   gap: 12px;
   margin-top: auto;
   width: 100%;
-  padding: 12px 24px; /* small inner padding but no outer gaps */
+  padding: 12px 16px;
   cursor: pointer;
+  border-radius: 9999px;
   transition: background 0.2s;
+  text-decoration: none;
+  color: inherit;
 }
 .profile-mini:hover {
   background: rgba(29, 155, 240, 0.1);
 }
-.profile-mini img {
+.profile-mini .profile-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .profile-mini .name {
   font-weight: bold;
   display: block;
+  color: #e7e9ea;
 }
 .profile-mini .handle {
   font-size: 14px;
@@ -96,7 +117,7 @@ body {
   background: #000;
 }
 .main-content {
-  min-width: 500px; /* or any base width */
+  min-width: 500px;
 }
 .right-bar {
   width: 350px;
@@ -108,27 +129,12 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background: #000; /* dark background */
+  background: #000;
 }
 
 .page-wrapper {
   display: grid;
-  grid-template-columns: 400px 1fr 350px; /* left sidebar | main feed | right sidebar */
-  width: 100%; /* span the entire viewport */
-  min-height: 100vh;
-}
-
-.profile-mini {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  grid-template-columns: 280px 1fr 350px;
   width: 100%;
-  padding: 12px 24px;
-  text-decoration: none; /* remove default link underline */
-  color: inherit; /* inherit sidebar text color */
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.profile-mini:hover {
-  background: rgba(29, 155, 240, 0.1);
+  min-height: 100vh;
 }

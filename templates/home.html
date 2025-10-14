@@ -1,0 +1,78 @@
+<aside class="left-menu">
+  <div class="logo-wrapper">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" />
+  </div>
+
+  <nav class="menu-links">
+    <a href="index.html">
+      <img
+        src="https://img.icons8.com/forma-regular/24/FFFFFF/home.png"
+        alt="home"
+        class="menu-icon"
+      />
+      Home
+    </a>
+    <a href="#">
+      <img
+        src="https://img.icons8.com/forma-regular/24/FFFFFF/search.png"
+        alt="search"
+        class="menu-icon"
+      />
+      Explore
+    </a>
+    <a href="#">
+      <img
+        src="https://img.icons8.com/forma-regular/24/FFFFFF/appointment-reminders.png"
+        alt="notifications"
+        class="menu-icon"
+      />
+      Notifications
+    </a>
+    <a href="#">
+      <img
+        src="https://img.icons8.com/forma-regular/24/FFFFFF/email.png"
+        alt="messages"
+        class="menu-icon"
+      />
+      Messages
+    </a>
+    <a href="#">
+      <img
+        src="https://img.icons8.com/forma-regular/24/FFFFFF/bookmark-ribbon.png"
+        alt="bookmarks"
+        class="menu-icon"
+      />
+      Bookmarks
+    </a>
+    <a href="#">
+      <img
+        src="https://img.icons8.com/forma-regular/24/FFFFFF/list.png"
+        alt="lists"
+        class="menu-icon"
+      />
+      Lists
+    </a>
+    <a href="#">
+      <img
+        src="https://img.icons8.com/forma-regular/24/FFFFFF/more.png"
+        alt="more"
+        class="menu-icon"
+      />
+      More
+    </a>
+  </nav>
+
+  <button class="tweet-btn">Tweet</button>
+
+  <a href="{{ url_for('profile') }}" class="profile-mini">
+    <img
+      src="{{ url_for('static', filename='images/avatar.jpg') }}"
+      alt="User"
+      class="profile-avatar"
+    />
+    <div>
+      <span class="name">Your Name</span>
+      <span class="handle">@username</span>
+    </div>
+  </a>
+</aside>
