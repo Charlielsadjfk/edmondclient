@@ -11,6 +11,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "replace_with_a_secure_secret_key_in_production"
@@ -110,6 +111,101 @@ def home():
     if "user_id" not in session:
         return redirect(url_for("login"))
     return render_template("home_page.html")
+
+
+# API endpoint to get all posts
+@app.route("/api/posts", methods=["GET"])
+def api_get_posts():
+    if "user_id" not in session:
+        return jsonify({"success": False, "message": "Not authenticated"}), 401
+
+    posts = dbHandler.get_all_posts()
+    posts_list = []
+
+    for post in posts:
+        posts_list.append(
+            {
+                "postID": post["postID"],
+                "userID": post["userID"],
+                "name": post["name"],
+                "username": post["username"],
+                "content": post["content"],
+                "created_at": post["created_at"],
+            }
+        )
+
+    return jsonify({"success": True, "posts": posts_list})
+
+
+# API endpoint to create a post
+@app.route("/api/posts", methods=["POST"])
+def api_create_post():
+    if "user_id" not in session:
+        return jsonify({"success": False, "message": "Not authenticated"}), 401
+
+    data = request.get_json()
+    content = data.get("content", "").strip()
+
+    if not content:
+        return jsonify({"success": False, "message": "Post content cannot be empty"})
+
+    if len(content) > 280:
+        return jsonify(
+            {"success": False, "message": "Post cannot exceed 280 characters"}
+        )
+
+    try:
+        post_id = dbHandler.create_post(session["user_id"], content)
+        return jsonify(
+            {"success": True, "message": "Post created successfully", "postID": post_id}
+        )
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error creating post: {str(e)}"})
+
+
+# API endpoint to delete a post
+@app.route("/api/posts/<int:post_id>", methods=["DELETE"])
+def api_delete_post(post_id):
+    if "user_id" not in session:
+        return jsonify({"success": False, "message": "Not authenticated"}), 401
+
+    # Check if post exists and belongs to user
+    post = dbHandler.get_post_by_id(post_id)
+    if not post:
+        return jsonify({"success": False, "message": "Post not found"}), 404
+
+    if post["userID"] != session["user_id"]:
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+
+    try:
+        dbHandler.delete_post(post_id)
+        return jsonify({"success": True, "message": "Post deleted successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Error deleting post: {str(e)}"})
+
+
+# API endpoint to get user's posts
+@app.route("/api/posts/user/<int:user_id>", methods=["GET"])
+def api_get_user_posts(user_id):
+    if "user_id" not in session:
+        return jsonify({"success": False, "message": "Not authenticated"}), 401
+
+    posts = dbHandler.get_posts_by_user(user_id)
+    posts_list = []
+
+    for post in posts:
+        posts_list.append(
+            {
+                "postID": post["postID"],
+                "userID": post["userID"],
+                "name": post["name"],
+                "username": post["username"],
+                "content": post["content"],
+                "created_at": post["created_at"],
+            }
+        )
+
+    return jsonify({"success": True, "posts": posts_list})
 
 
 # Profile page

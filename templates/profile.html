@@ -24,8 +24,8 @@
   </header>
 
   <section class="profile-info">
-    <h1>Your Name</h1>
-    <span class="handle">@username</span>
+    <h1>{{ session.get('name', 'Your Name') }}</h1>
+    <span class="handle">@{{ session.get('username', 'username') }}</span>
     <p class="bio">
       <img
         src="https://img.icons8.com/forma-regular/16/71767b/briefcase.png"
@@ -42,21 +42,210 @@
     </p>
     <div class="stats">
       <span><strong>569</strong> Following</span>
-      <span><strong>72</strong> Followers</span>
+      <span><strong id="followerCount">72</strong> Followers</span>
     </div>
   </section>
 
   <nav class="profile-tabs">
-    <button class="active">Tweets</button>
-    <button>Tweets & replies</button>
-    <button>Media</button>
-    <button>Likes</button>
+    <button class="tab-button active" data-tab="tweets">Tweets</button>
+    <button class="tab-button" data-tab="replies">Tweets & replies</button>
+    <button class="tab-button" data-tab="media">Media</button>
+    <button class="tab-button" data-tab="likes">Likes</button>
   </nav>
 
-  <section class="profile-feed">
-    <article class="tweet-card">
-      <div class="tweet-content">🚀 First tweet on my new profile layout!</div>
-    </article>
+  <section class="profile-feed" id="profileFeed">
+    <!-- Posts will be loaded here dynamically -->
+    <div style="padding: 32px; text-align: center; color: #71767b">
+      Loading posts...
+    </div>
   </section>
 </div>
+
+<script>
+  const userId = {{ session.get('user_id', 0) }};
+  const username = '{{ session.get("username", "") }}';
+  let currentTab = 'tweets';
+
+  // Tab switching
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const profileFeed = document.getElementById('profileFeed');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active states
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+
+      // Get selected tab
+      currentTab = button.dataset.tab;
+
+      // Load content based on tab
+      loadTabContent(currentTab);
+    });
+  });
+
+  // Load tab content
+  async function loadTabContent(tab) {
+    profileFeed.innerHTML = `
+      <div style="padding: 32px; text-align: center; color: #71767b;">
+        Loading...
+      </div>
+    `;
+
+    switch(tab) {
+      case 'tweets':
+        await loadUserPosts();
+        break;
+      case 'replies':
+        showComingSoon('Tweets & replies');
+        break;
+      case 'media':
+        showComingSoon('Media posts');
+        break;
+      case 'likes':
+        showComingSoon('Liked posts');
+        break;
+    }
+  }
+
+  // Load user posts
+  async function loadUserPosts() {
+    try {
+      const response = await fetch(`/api/posts/user/${userId}`);
+      const data = await response.json();
+
+      if (data.success && data.posts.length > 0) {
+        profileFeed.innerHTML = '';
+
+        data.posts.forEach(post => {
+          const tweetEl = createTweetElement(post);
+          profileFeed.appendChild(tweetEl);
+        });
+      } else {
+        profileFeed.innerHTML = `
+          <div class="empty-state">
+            You haven't posted anything yet. Share your first tweet!
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Error loading posts:', error);
+      profileFeed.innerHTML = `
+        <div style="padding: 32px; text-align: center; color: #f4212e;">
+          Error loading posts. Please refresh the page.
+        </div>
+      `;
+    }
+  }
+
+  // Show coming soon message
+  function showComingSoon(feature) {
+    profileFeed.innerHTML = `
+      <div class="empty-state">
+        ${feature} feature coming soon! 🚀
+      </div>
+    `;
+  }
+
+  // Create tweet element
+  function createTweetElement(post) {
+    const article = document.createElement('article');
+    article.className = 'tweet-card';
+
+    const timeAgo = getTimeAgo(post.created_at);
+
+    article.innerHTML = `
+      <div class="tweet-card-header">
+        <img
+          src="{{ url_for('static', filename='images/avatar.jpg') }}"
+          alt="User avatar"
+          class="tweet-card-avatar"
+        />
+        <div style="flex: 1; min-width: 0;">
+          <div class="tweet-card-info">
+            <span class="tweet-card-name">${escapeHtml(post.name)}</span>
+            <span class="tweet-card-username">@${escapeHtml(post.username)}</span>
+            <span class="tweet-card-time">· ${timeAgo}</span>
+          </div>
+        </div>
+        <button
+          class="delete-post-btn"
+          onclick="deletePost(${post.postID})"
+          style="background: transparent; border: none; color: #71767b; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: all 0.2s;"
+          onmouseover="this.style.color='#f4212e'; this.style.background='rgba(244, 33, 46, 0.1)'"
+          onmouseout="this.style.color='#71767b'; this.style.background='transparent'"
+        >
+          <img src="https://img.icons8.com/forma-regular/16/71767b/trash.png" alt="delete" style="vertical-align: middle;" />
+        </button>
+      </div>
+      <div class="tweet-card-content">${escapeHtml(post.content)}</div>
+      <div class="tweet-card-actions">
+        <button>
+          <img src="https://img.icons8.com/forma-regular/18/71767b/speech-bubble.png" alt="reply" />
+          <span>0</span>
+        </button>
+        <button>
+          <img src="https://img.icons8.com/forma-regular/18/71767b/retweet.png" alt="retweet" />
+          <span>0</span>
+        </button>
+        <button>
+          <img src="https://img.icons8.com/forma-regular/18/71767b/like.png" alt="like" />
+          <span>0</span>
+        </button>
+        <button>
+          <img src="https://img.icons8.com/forma-regular/18/71767b/share.png" alt="share" />
+        </button>
+      </div>
+    `;
+
+    return article;
+  }
+
+  // Delete post
+  async function deletePost(postId) {
+    if (!confirm('Are you sure you want to delete this post?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: 'DELETE'
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        loadTabContent(currentTab);
+      } else {
+        alert(data.message || 'Error deleting post');
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Error deleting post. Please try again.');
+    }
+  }
+
+  // Helper functions
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function getTimeAgo(timestamp) {
+    const now = new Date();
+    const posted = new Date(timestamp);
+    const seconds = Math.floor((now - posted) / 1000);
+
+    if (seconds < 60) return `${seconds}s`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
+    if (seconds < 604800) return `${Math.floor(seconds / 86400)}d`;
+
+    return posted.toLocaleDateString();
+  }
+
+  // Load initial content
+  loadTabContent('tweets');
+</script>
 {% endblock %}

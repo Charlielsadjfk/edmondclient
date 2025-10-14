@@ -80,3 +80,76 @@ def delete_user(userID):
     cur.execute("DELETE FROM USER WHERE userID = ?", (userID,))
     con.commit()
     con.close()
+
+
+# POST FUNCTIONS
+
+
+def create_post(userID, content):
+    con = get_connection()
+    cur = con.cursor()
+    cur.execute(
+        "INSERT INTO POST (userID, content) VALUES (?, ?)",
+        (userID, content),
+    )
+    con.commit()
+    post_id = cur.lastrowid
+    con.close()
+    return post_id
+
+
+def get_all_posts():
+    con = get_connection()
+    cur = con.cursor()
+    data = cur.execute(
+        """
+        SELECT POST.*, USER.name, USER.username 
+        FROM POST 
+        JOIN USER ON POST.userID = USER.userID 
+        ORDER BY POST.created_at DESC
+        """
+    ).fetchall()
+    con.close()
+    return data
+
+
+def get_posts_by_user(userID):
+    con = get_connection()
+    cur = con.cursor()
+    data = cur.execute(
+        """
+        SELECT POST.*, USER.name, USER.username 
+        FROM POST 
+        JOIN USER ON POST.userID = USER.userID 
+        WHERE POST.userID = ?
+        ORDER BY POST.created_at DESC
+        """,
+        (userID,),
+    ).fetchall()
+    con.close()
+    return data
+
+
+def get_post_by_id(postID):
+    con = get_connection()
+    cur = con.cursor()
+    cur.execute(
+        """
+        SELECT POST.*, USER.name, USER.username 
+        FROM POST 
+        JOIN USER ON POST.userID = USER.userID 
+        WHERE POST.postID = ?
+        """,
+        (postID,),
+    )
+    post = cur.fetchone()
+    con.close()
+    return post
+
+
+def delete_post(postID):
+    con = get_connection()
+    cur = con.cursor()
+    cur.execute("DELETE FROM POST WHERE postID = ?", (postID,))
+    con.commit()
+    con.close()
