@@ -1,0 +1,212 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="home-wrapper">
+  <header class="home-header">
+    <h2>Home</h2>
+  </header>
+
+  <!-- Tweet Composer -->
+  <div class="tweet-composer">
+    <img
+      src="{{ url_for('static', filename='images/avatar.jpg') }}"
+      alt="Your avatar"
+      class="composer-avatar"
+    />
+    <form class="composer-form">
+      <textarea placeholder="What's happening?"></textarea>
+      <div class="composer-actions">
+        <div class="composer-icons">
+          <button type="button" title="Add photo">
+            <img
+              src="https://img.icons8.com/forma-regular/18/1da1f2/image.png"
+              alt="image"
+            />
+          </button>
+          <button type="button" title="Add GIF">
+            <img
+              src="https://img.icons8.com/forma-regular/18/1da1f2/gif.png"
+              alt="gif"
+            />
+          </button>
+          <button type="button" title="Add poll">
+            <img
+              src="https://img.icons8.com/forma-regular/18/1da1f2/poll.png"
+              alt="poll"
+            />
+          </button>
+          <button type="button" title="Add emoji">
+            <img
+              src="https://img.icons8.com/forma-regular/18/1da1f2/happy.png"
+              alt="emoji"
+            />
+          </button>
+        </div>
+        <button type="submit" class="tweet-post-btn">Tweet</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Feed -->
+  <div class="feed">
+    <!-- Sample Tweet 1 -->
+    <article class="tweet">
+      <img
+        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        alt="User avatar"
+        class="tweet-avatar"
+      />
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="tweet-name">{{ session.get('name', 'Your Name') }}</span>
+          <span class="tweet-username"
+            >@{{ session.get('username', 'username') }}</span
+          >
+          <span class="tweet-time">· 2h</span>
+        </div>
+        <p class="tweet-text">
+          Just set up my new Twitter clone! This is pretty cool 🚀
+        </p>
+        <div class="tweet-actions">
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/speech-bubble.png"
+              alt="reply"
+              class="icon"
+            />
+            <span>12</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/retweet.png"
+              alt="retweet"
+              class="icon"
+            />
+            <span>5</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/like.png"
+              alt="like"
+              class="icon"
+            />
+            <span>42</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/share.png"
+              alt="share"
+              class="icon"
+            />
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Sample Tweet 2 -->
+    <article class="tweet">
+      <img
+        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        alt="User avatar"
+        class="tweet-avatar"
+      />
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="tweet-name">Tech Enthusiast</span>
+          <span class="tweet-username">@techie</span>
+          <span class="tweet-time">· 5h</span>
+        </div>
+        <p class="tweet-text">
+          Flask is such a powerful framework for building web applications!
+          Perfect for rapid prototyping 💻
+        </p>
+        <div class="tweet-actions">
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/speech-bubble.png"
+              alt="reply"
+              class="icon"
+            />
+            <span>8</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/retweet.png"
+              alt="retweet"
+              class="icon"
+            />
+            <span>15</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/like.png"
+              alt="like"
+              class="icon"
+            />
+            <span>89</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/share.png"
+              alt="share"
+              class="icon"
+            />
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Sample Tweet 3 -->
+    <article class="tweet">
+      <img
+        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        alt="User avatar"
+        class="tweet-avatar"
+      />
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="tweet-name">Developer Daily</span>
+          <span class="tweet-username">@devdaily</span>
+          <span class="tweet-time">· 1d</span>
+        </div>
+        <p class="tweet-text">
+          Remember: Clean code is not just about making it work, it's about
+          making it maintainable for the next developer (which might be future
+          you!) 📝
+        </p>
+        <div class="tweet-actions">
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/speech-bubble.png"
+              alt="reply"
+              class="icon"
+            />
+            <span>24</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/retweet.png"
+              alt="retweet"
+              class="icon"
+            />
+            <span>67</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/like.png"
+              alt="like"
+              class="icon"
+            />
+            <span>234</span>
+          </button>
+          <button class="action-btn">
+            <img
+              src="https://img.icons8.com/forma-regular/18/71767b/share.png"
+              alt="share"
+              class="icon"
+            />
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+{% endblock %}
