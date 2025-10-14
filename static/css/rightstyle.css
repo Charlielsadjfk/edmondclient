@@ -1,13 +1,17 @@
 .right-bar {
-  width: 350px;
-  padding: 20px;
-  background: #000;
-  color: #e7e9ea;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding-top: 8px;
 }
+
 .search-box {
   position: relative;
   width: 100%;
+  margin-bottom: 12px;
 }
+
 .search-box .search-icon {
   position: absolute;
   left: 16px;
@@ -17,6 +21,7 @@
   height: 20px;
   pointer-events: none;
 }
+
 .search-box input {
   width: 100%;
   padding: 12px 20px 12px 48px;
@@ -24,88 +29,124 @@
   border: none;
   background: #202327;
   color: #e7e9ea;
+  font-size: 15px;
 }
+
 .search-box input:focus {
-  outline: 1px solid #1da1f2;
+  outline: 2px solid #1da1f2;
   background: #000;
 }
+
+.search-box input::placeholder {
+  color: #71767b;
+}
+
 .trending,
 .follow-next {
   background: #16181c;
   border-radius: 16px;
-  margin-top: 20px;
-  padding: 16px;
+  margin-bottom: 16px;
+  overflow: hidden;
 }
+
 .trending h2,
 .follow-next h2 {
   font-size: 20px;
-  margin-bottom: 12px;
+  font-weight: 800;
+  padding: 12px 16px;
 }
+
 .trending ul {
   list-style: none;
 }
+
 .trending li {
-  padding: 10px 0;
+  padding: 12px 16px;
   border-bottom: 1px solid #2f3336;
-  font-size: 14px;
+  font-size: 15px;
+  transition: background 0.2s;
+  cursor: pointer;
 }
+
+.trending li:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 .trending li:last-child {
   border-bottom: none;
 }
+
 .trending .topic {
   color: #71767b;
   display: block;
-  font-size: 12px;
-  margin-bottom: 4px;
+  font-size: 13px;
+  margin-bottom: 2px;
 }
+
 .show-more {
   display: block;
   color: #1da1f2;
   text-decoration: none;
-  padding-top: 12px;
+  padding: 16px;
   font-size: 15px;
+  transition: background 0.2s;
 }
+
 .show-more:hover {
-  text-decoration: underline;
+  background: rgba(255, 255, 255, 0.03);
 }
+
 .follow-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
-  gap: 10px;
+  padding: 12px 16px;
+  gap: 12px;
+  transition: background 0.2s;
 }
+
+.follow-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 .follow-card .follow-avatar {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   flex-shrink: 0;
 }
+
 .follow-card button {
-  background: #e7e9ea;
+  background: #eff3f4;
   border: none;
-  padding: 6px 16px;
-  border-radius: 20px;
+  padding: 8px 16px;
+  border-radius: 9999px;
   cursor: pointer;
-  font-weight: bold;
-  color: #000;
+  font-weight: 700;
+  color: #0f1419;
   font-size: 14px;
   transition: background 0.2s;
   flex-shrink: 0;
 }
+
 .follow-card button:hover {
-  background: #d7d9da;
+  background: #d7dbdc;
 }
+
 .follow-card div {
   flex: 1;
   min-width: 0;
 }
+
 .follow-card strong {
   display: block;
   color: #e7e9ea;
+  font-size: 15px;
+  font-weight: 700;
 }
+
 .follow-card span {
   color: #71767b;
   display: block;
-  font-size: 13px;
+  font-size: 15px;
 }
