@@ -1,38 +1,62 @@
-from flask import Flask
-from flask import render_template
-from flask import request
 import database_manager as dbHandler
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+import sqlite3
+import os
+from werkzeug.security import check_password_hash  # if you store hashed passwords
 
+app = Flask(__name__)
+app.secret_key = "replace_with_a_secure_secret_key"
 app = Flask(__name__)
 
 
-@app.route("/index.html", methods=["GET"])
-@app.route("/", methods=["POST", "GET"])
-def index():
-    data = dbHandler.listExtension()
-    return render_template("index.html", content=data)
-
-
-@app.route("/main")
-def profile():
-    return render_template("profile.html")
+def get_db_connection():
+    db_path = os.path.join(
+        os.path.dirname(__file__), "data_source.db"
+    )  # adjust path if needed
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
+        email = request.form.get("email")  # name="email" in login.html
+        password = request.form.get("password")  # name="password"
 
-        # ✅ Example check (replace with real authentication logic)
-        if username == "admin" and password == "password":
-            return redirect(url_for("index"))  # or your home/profile route
+        # Connect to database and search for user
+        conn = get_db_connection()
+        user = conn.execute("SELECT * FROM USER WHERE email = ?", (email,)).fetchone()
+        conn.close()
+
+        if user:
+            # If you stored plain text passwords (not recommended)
+            # if password == user["password"]:
+
+            # If you stored hashed passwords (recommended)
+            if check_password_hash(user["password"], password):
+                session["user_id"] = user["userID"]
+                session["name"] = user["name"]
+                flash("Logged in successfully!", "success")
+                return redirect(url_for("profile"))  # redirect to a profile route
+            else:
+                flash("Invalid password.", "error")
         else:
-            # Normally you’d flash an error message or re-render with error
-            return render_template("login.html", error="Invalid credentials")
+            flash("No account found with that email.", "error")
 
-    # GET request → just show the login page
     return render_template("login.html")
+
+
+@app.route("/profile")
+def profile():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    return render_template("profile.html", name=session.get("name"))
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 if __name__ == "__main__":
