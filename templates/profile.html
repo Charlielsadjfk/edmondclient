@@ -6,14 +6,16 @@
 {% endblock %} {% block content %}
 <div class="profile-wrapper">
   <header class="profile-header">
-    <div class="banner"></div>
+    <div class="banner" id="profileBanner"></div>
     <div class="avatar-wrap">
+      {% set pfp = session.get('profile_picture', 'avatar.jpg') %}
       <img
-        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        id="profileAvatar"
+        src="{{ url_for('static', filename=('uploads/' + pfp) if not pfp.startswith('avatar') else 'images/' + pfp) }}"
         alt="Avatar"
       />
     </div>
-    <button class="edit-btn">
+    <button class="edit-btn" id="actionBtn">
       <img
         src="https://img.icons8.com/forma-regular/16/FFFFFF/edit.png"
         alt="edit"
@@ -24,25 +26,21 @@
   </header>
 
   <section class="profile-info">
-    <h1>{{ session.get('name', 'Your Name') }}</h1>
-    <span class="handle">@{{ session.get('username', 'username') }}</span>
-    <p class="bio">
-      <img
-        src="https://img.icons8.com/forma-regular/16/71767b/briefcase.png"
-        alt="work"
-        style="vertical-align: middle"
-      />
-      Product Designer •
+    <h1 id="profileName">{{ session.get('name', 'Your Name') }}</h1>
+    <span class="handle" id="profileHandle"
+      >@{{ session.get('username', 'username') }}</span
+    >
+    <p class="bio" id="profileBio">
       <img
         src="https://img.icons8.com/forma-regular/16/71767b/calendar.png"
         alt="joined"
         style="vertical-align: middle"
       />
-      Joined September 2011
+      Joined <span id="joinedDate">September 2011</span>
     </p>
     <div class="stats">
-      <span><strong>569</strong> Following</span>
-      <span><strong id="followerCount">72</strong> Followers</span>
+      <span><strong id="followingCount">0</strong> Following</span>
+      <span><strong id="followerCount">0</strong> Followers</span>
     </div>
   </section>
 
@@ -54,7 +52,6 @@
   </nav>
 
   <section class="profile-feed" id="profileFeed">
-    <!-- Posts will be loaded here dynamically -->
     <div style="padding: 32px; text-align: center; color: #71767b">
       Loading posts...
     </div>
@@ -62,9 +59,117 @@
 </div>
 
 <script>
-  const userId = {{ session.get('user_id', 0) }};
-  const username = '{{ session.get("username", "") }}';
+  const profileUsername = '{{ profile_username }}';
+  const currentUsername = '{{ session.get("username", "") }}';
+  const currentUserId = {{ session.get('user_id', 0) }};
+  let profileUserId = null;
   let currentTab = 'tweets';
+  let isOwnProfile = profileUsername === currentUsername;
+
+  // Load profile data
+  async function loadProfileData() {
+    try {
+      // First get user by username
+      const usernameResponse = await fetch(`/api/user/${currentUserId}`);
+      const tempData = await usernameResponse.json();
+
+      // Find user by username from the session or use current user
+      let targetUserId = currentUserId;
+
+      if (!isOwnProfile) {
+        // For other profiles, we need to search (simplified - in production you'd have a proper API)
+        // For now, we'll try to get the user info directly
+        targetUserId = currentUserId; // This is a limitation - you'd need a username lookup API
+      }
+
+      const response = await fetch(`/api/user/${targetUserId}`);
+      const data = await response.json();
+
+      if (data.success) {
+        const user = data.user;
+        profileUserId = user.userID;
+        isOwnProfile = profileUserId === currentUserId;
+
+        document.getElementById('profileName').textContent = user.name;
+        document.getElementById('profileHandle').textContent = `@${user.username}`;
+        document.getElementById('profileAvatar').src="{{ url_for('static', filename=('uploads/' + pfp) if not pfp.startswith('avatar') else 'images/' + pfp) }}";
+
+        if (user.banner_picture) {
+          document.getElementById('profileBanner').style.background = `url('/static/uploads/${user.banner_picture}') center/cover`;
+        }
+
+        // Update bio
+        const bioElement = document.getElementById('profileBio');
+        if (user.bio) {
+          bioElement.innerHTML = `
+            ${escapeHtml(user.bio)}<br/>
+            <img src="https://img.icons8.com/forma-regular/16/71767b/calendar.png" alt="joined" style="vertical-align: middle; margin-top: 8px;" />
+            Joined ${formatDate(user.created_at)}
+          `;
+        }
+
+        document.getElementById('followingCount').textContent = user.following_count;
+        document.getElementById('followerCount').textContent = user.followers_count;
+
+        // Update action button
+        const actionBtn = document.getElementById('actionBtn');
+        if (isOwnProfile) {
+          actionBtn.innerHTML = '<img src="https://img.icons8.com/forma-regular/16/FFFFFF/edit.png" alt="edit" style="vertical-align: middle; margin-right: 6px" />Edit profile';
+          actionBtn.onclick = () => window.location.href = '/edit-profile';
+        } else {
+          if (user.is_following) {
+            actionBtn.innerHTML = 'Following';
+            actionBtn.style.background = 'transparent';
+            actionBtn.style.border = '1px solid #536471';
+            actionBtn.onclick = () => unfollowUser(profileUserId);
+          } else {
+            actionBtn.innerHTML = 'Follow';
+            actionBtn.style.background = '#eff3f4';
+            actionBtn.style.color = '#0f1419';
+            actionBtn.style.border = 'none';
+            actionBtn.onclick = () => followUser(profileUserId);
+          }
+        }
+
+        // Load posts
+        loadTabContent('tweets');
+      }
+    } catch (error) {
+      console.error('Error loading profile:', error);
+    }
+  }
+
+  // Follow user
+  async function followUser(userId) {
+    try {
+      const response = await fetch(`/api/user/${userId}/follow`, {
+        method: 'POST'
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        loadProfileData();
+      }
+    } catch (error) {
+      console.error('Error following user:', error);
+    }
+  }
+
+  // Unfollow user
+  async function unfollowUser(userId) {
+    try {
+      const response = await fetch(`/api/user/${userId}/unfollow`, {
+        method: 'POST'
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        loadProfileData();
+      }
+    } catch (error) {
+      console.error('Error unfollowing user:', error);
+    }
+  }
 
   // Tab switching
   const tabButtons = document.querySelectorAll('.tab-button');
@@ -72,14 +177,9 @@
 
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
-      // Update active states
       tabButtons.forEach(btn => btn.classList.remove('active'));
       button.classList.add('active');
-
-      // Get selected tab
       currentTab = button.dataset.tab;
-
-      // Load content based on tab
       loadTabContent(currentTab);
     });
   });
@@ -100,10 +200,10 @@
         showComingSoon('Tweets & replies');
         break;
       case 'media':
-        showComingSoon('Media posts');
+        await loadUserMediaPosts();
         break;
       case 'likes':
-        showComingSoon('Liked posts');
+        await loadUserLikedPosts();
         break;
     }
   }
@@ -111,12 +211,11 @@
   // Load user posts
   async function loadUserPosts() {
     try {
-      const response = await fetch(`/api/posts/user/${userId}`);
+      const response = await fetch(`/api/posts/user/${profileUserId || currentUserId}`);
       const data = await response.json();
 
       if (data.success && data.posts.length > 0) {
         profileFeed.innerHTML = '';
-
         data.posts.forEach(post => {
           const tweetEl = createTweetElement(post);
           profileFeed.appendChild(tweetEl);
@@ -124,12 +223,41 @@
       } else {
         profileFeed.innerHTML = `
           <div class="empty-state">
-            You haven't posted anything yet. Share your first tweet!
+            ${isOwnProfile ? "You haven't posted any media yet." : "No media posts yet."}
           </div>
         `;
       }
     } catch (error) {
-      console.error('Error loading posts:', error);
+      console.error('Error loading media posts:', error);
+      profileFeed.innerHTML = `
+        <div style="padding: 32px; text-align: center; color: #f4212e;">
+          Error loading posts. Please refresh the page.
+        </div>
+      `;
+    }
+  }
+
+  // Load user liked posts
+  async function loadUserLikedPosts() {
+    try {
+      const response = await fetch(`/api/posts/user/${profileUserId || currentUserId}/likes`);
+      const data = await response.json();
+
+      if (data.success && data.posts.length > 0) {
+        profileFeed.innerHTML = '';
+        data.posts.forEach(post => {
+          const tweetEl = createTweetElement(post);
+          profileFeed.appendChild(tweetEl);
+        });
+      } else {
+        profileFeed.innerHTML = `
+          <div class="empty-state">
+            ${isOwnProfile ? "You haven't liked any posts yet." : "No liked posts yet."}
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Error loading liked posts:', error);
       profileFeed.innerHTML = `
         <div style="padding: 32px; text-align: center; color: #f4212e;">
           Error loading posts. Please refresh the page.
@@ -153,11 +281,26 @@
     article.className = 'tweet-card';
 
     const timeAgo = getTimeAgo(post.created_at);
+    const isOwnPost = post.userID === currentUserId;
+
+    let mediaHtml = '';
+    if (post.media_url) {
+      mediaHtml = `
+        <div class="tweet-media">
+          <img src="${post.media_url}" alt="Post media" style="width: 100%; border-radius: 16px; margin-top: 12px;" />
+        </div>
+      `;
+    }
 
     article.innerHTML = `
       <div class="tweet-card-header">
+        {% set pfp = session.get('profile_picture', 'avatar.jpg') %}
         <img
-          src="{{ url_for('static', filename='images/avatar.jpg') }}"
+          src="${
+          post.profile_picture.startsWith("avatar")
+            ? "/static/images/" + escapeHtml(post.profile_picture)
+            : "/static/uploads/" + escapeHtml(post.profile_picture)
+        }"
           alt="User avatar"
           class="tweet-card-avatar"
         />
@@ -168,6 +311,7 @@
             <span class="tweet-card-time">· ${timeAgo}</span>
           </div>
         </div>
+        ${isOwnPost ? `
         <button
           class="delete-post-btn"
           onclick="deletePost(${post.postID})"
@@ -177,8 +321,10 @@
         >
           <img src="https://img.icons8.com/forma-regular/16/71767b/trash.png" alt="delete" style="vertical-align: middle;" />
         </button>
+        ` : ''}
       </div>
       <div class="tweet-card-content">${escapeHtml(post.content)}</div>
+      ${mediaHtml}
       <div class="tweet-card-actions">
         <button>
           <img src="https://img.icons8.com/forma-regular/18/71767b/speech-bubble.png" alt="reply" />
@@ -188,9 +334,9 @@
           <img src="https://img.icons8.com/forma-regular/18/71767b/retweet.png" alt="retweet" />
           <span>0</span>
         </button>
-        <button>
-          <img src="https://img.icons8.com/forma-regular/18/71767b/like.png" alt="like" />
-          <span>0</span>
+        <button onclick="toggleLike(${post.postID}, this)" class="${post.is_liked ? 'liked' : ''}">
+          <img src="https://img.icons8.com/forma-regular/18/${post.is_liked ? 'f4212e' : '71767b'}/like.png" alt="like" />
+          <span style="color: ${post.is_liked ? '#f4212e' : '#71767b'}">${post.like_count}</span>
         </button>
         <button>
           <img src="https://img.icons8.com/forma-regular/18/71767b/share.png" alt="share" />
@@ -199,6 +345,23 @@
     `;
 
     return article;
+  }
+
+  // Toggle like
+  async function toggleLike(postId, button) {
+    const isLiked = button.classList.contains('liked');
+    const endpoint = isLiked ? `/api/posts/${postId}/unlike` : `/api/posts/${postId}/like`;
+
+    try {
+      const response = await fetch(endpoint, { method: 'POST' });
+      const data = await response.json();
+
+      if (data.success || !isLiked) {
+        loadTabContent(currentTab);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
   }
 
   // Delete post
@@ -245,7 +408,27 @@
     return posted.toLocaleDateString();
   }
 
-  // Load initial content
-  loadTabContent('tweets');
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const options = { month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  // Load profile data on page load
+  loadProfileData();
 </script>
-{% endblock %}
+{% endblock %}); }); } else { profileFeed.innerHTML = `
+<div class="empty-state">
+  ${isOwnProfile ? "You haven't posted anything yet. Share your first tweet!" :
+  "No posts yet."}
+</div>
+`; } } catch (error) { console.error('Error loading posts:', error);
+profileFeed.innerHTML = `
+<div style="padding: 32px; text-align: center; color: #f4212e">
+  Error loading posts. Please refresh the page.
+</div>
+`; } } // Load user media posts async function loadUserMediaPosts() { try {
+const response = await fetch(`/api/posts/user/${profileUserId ||
+currentUserId}/media`); const data = await response.json(); if (data.success &&
+data.posts.length > 0) { profileFeed.innerHTML = ''; data.posts.forEach(post =>
+{ const tweetEl = createTweetElement(post); profileFeed.appendChild(tweetEl

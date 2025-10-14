@@ -1,0 +1,293 @@
+{% extends "layout.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/edit_profile.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="edit-profile-wrapper">
+  <header class="edit-profile-header">
+    <div style="display: flex; align-items: center; gap: 32px">
+      <a
+        href="{{ url_for('profile') }}"
+        style="color: #e7e9ea; text-decoration: none"
+      >
+        <img
+          src="https://img.icons8.com/forma-regular/24/FFFFFF/back.png"
+          alt="back"
+        />
+      </a>
+      <h2>Edit profile</h2>
+    </div>
+    <button class="save-btn" id="saveBtn">Save</button>
+  </header>
+
+  <div class="edit-profile-content">
+    <!-- Banner Upload -->
+    <div class="banner-section">
+      <div class="banner-preview" id="bannerPreview">
+        <img
+          id="bannerImg"
+          src=""
+          alt="Banner"
+          style="width: 100%; height: 100%; object-fit: cover; display: none"
+        />
+      </div>
+      <div class="banner-controls">
+        <label for="bannerUpload" class="upload-btn">
+          <img
+            src="https://img.icons8.com/forma-regular/20/FFFFFF/camera.png"
+            alt="camera"
+          />
+        </label>
+        <input
+          type="file"
+          id="bannerUpload"
+          accept="image/*"
+          style="display: none"
+        />
+        <button class="remove-btn" id="removeBanner" style="display: none">
+          <img
+            src="https://img.icons8.com/forma-regular/20/FFFFFF/delete-sign.png"
+            alt="remove"
+          />
+        </button>
+      </div>
+    </div>
+
+    <!-- Profile Picture Upload -->
+    <div class="profile-pic-section">
+      <div class="profile-pic-preview">
+        {% set pfp = session.get('profile_picture', 'avatar.jpg') %}
+        <img
+          id="profilePicImg"
+          src="{{ url_for('static', filename=('uploads/' + pfp) if not pfp.startswith('avatar') else 'images/' + pfp) }}"
+          alt="Profile"
+        />
+        <label for="profilePicUpload" class="upload-overlay">
+          <img
+            src="https://img.icons8.com/forma-regular/24/FFFFFF/camera.png"
+            alt="camera"
+          />
+        </label>
+        <input
+          type="file"
+          id="profilePicUpload"
+          accept="image/*"
+          style="display: none"
+        />
+      </div>
+    </div>
+
+    <!-- Form Fields -->
+    <form id="editProfileForm">
+      <div class="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          id="nameInput"
+          value="{{ session.get('name', '') }}"
+          maxlength="50"
+        />
+        <span class="char-count" id="nameCount">0/50</span>
+      </div>
+
+      <div class="form-group">
+        <label>Bio</label>
+        <textarea
+          id="bioInput"
+          maxlength="160"
+          placeholder="Add a bio to your profile"
+        ></textarea>
+        <span class="char-count" id="bioCount">0/160</span>
+      </div>
+
+      <div id="errorMessage" class="error-message"></div>
+      <div id="successMessage" class="success-message"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let bannerFile = null;
+  let profilePicFile = null;
+  let uploadedBannerUrl = null;
+  let uploadedProfilePicUrl = null;
+  let currentUserData = null;
+
+  // Load current user data
+  async function loadUserData() {
+    try {
+      const response = await fetch(`/api/user/{{ session.get('user_id') }}`);
+      const data = await response.json();
+
+      if (data.success) {
+        currentUserData = data.user;
+        document.getElementById("nameInput").value = currentUserData.name;
+        document.getElementById("bioInput").value = currentUserData.bio || "";
+
+        if (currentUserData.banner_picture) {
+          document.getElementById(
+            "bannerImg"
+          ).src = `/static/uploads/${currentUserData.banner_picture}`;
+          document.getElementById("bannerImg").style.display = "block";
+          document.getElementById("removeBanner").style.display = "block";
+        }
+
+        updateCharCounts();
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error);
+    }
+  }
+
+  // Update character counts
+  function updateCharCounts() {
+    const nameInput = document.getElementById("nameInput");
+    const bioInput = document.getElementById("bioInput");
+    document.getElementById(
+      "nameCount"
+    ).textContent = `${nameInput.value.length}/50`;
+    document.getElementById(
+      "bioCount"
+    ).textContent = `${bioInput.value.length}/160`;
+  }
+
+  document
+    .getElementById("nameInput")
+    .addEventListener("input", updateCharCounts);
+  document
+    .getElementById("bioInput")
+    .addEventListener("input", updateCharCounts);
+
+  // Banner upload
+  document.getElementById("bannerUpload").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      bannerFile = file;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        document.getElementById("bannerImg").src = event.target.result;
+        document.getElementById("bannerImg").style.display = "block";
+        document.getElementById("removeBanner").style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Remove banner
+  document.getElementById("removeBanner").addEventListener("click", () => {
+    bannerFile = null;
+    uploadedBannerUrl = "";
+    document.getElementById("bannerImg").src = "";
+    document.getElementById("bannerImg").style.display = "none";
+    document.getElementById("removeBanner").style.display = "none";
+    document.getElementById("bannerUpload").value = "";
+  });
+
+  // Profile picture upload
+  document
+    .getElementById("profilePicUpload")
+    .addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        profilePicFile = file;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          document.getElementById("profilePicImg").src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+  // Upload file to server
+  async function uploadFile(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      return data.media_url.replace("/static/uploads/", "");
+    }
+    throw new Error("Upload failed");
+  }
+
+  // Save profile
+  document.getElementById("saveBtn").addEventListener("click", async () => {
+    const saveBtn = document.getElementById("saveBtn");
+    const errorMsg = document.getElementById("errorMessage");
+    const successMsg = document.getElementById("successMessage");
+
+    errorMsg.style.display = "none";
+    successMsg.style.display = "none";
+
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
+
+    try {
+      // Upload files if new ones were selected
+      if (bannerFile) {
+        uploadedBannerUrl = await uploadFile(bannerFile);
+      } else if (uploadedBannerUrl === "") {
+        uploadedBannerUrl = "";
+      } else if (currentUserData && currentUserData.banner_picture) {
+        uploadedBannerUrl = currentUserData.banner_picture;
+      }
+
+      if (profilePicFile) {
+        uploadedProfilePicUrl = await uploadFile(profilePicFile);
+      } else if (currentUserData && currentUserData.profile_picture) {
+        uploadedProfilePicUrl = currentUserData.profile_picture;
+      }
+
+      // Update profile
+      const response = await fetch("/api/user/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: document.getElementById("nameInput").value,
+          bio: document.getElementById("bioInput").value,
+          profile_picture:
+            uploadedProfilePicUrl || currentUserData.profile_picture,
+          banner_picture:
+            uploadedBannerUrl !== undefined
+              ? uploadedBannerUrl
+              : currentUserData
+              ? currentUserData.banner_picture
+              : "",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        successMsg.textContent = "Profile updated successfully!";
+        successMsg.style.display = "block";
+
+        setTimeout(() => {
+          window.location.href = "/profile";
+        }, 1000);
+      } else {
+        errorMsg.textContent = data.message || "Error updating profile";
+        errorMsg.style.display = "block";
+      }
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      errorMsg.textContent = "Error updating profile. Please try again.";
+      errorMsg.style.display = "block";
+    } finally {
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Save";
+    }
+  });
+
+  // Load user data on page load
+  loadUserData();
+</script>
+{% endblock %}

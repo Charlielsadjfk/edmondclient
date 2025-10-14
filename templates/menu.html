@@ -76,9 +76,10 @@
 
   <button class="tweet-btn">Tweet</button>
 
-  <a href="{{ url_for('profile') }}" class="profile-mini">
+  <a href="{{ url_for('edit_profile') }}" class="profile-mini">
+    {% set pfp = session.get('profile_picture', 'avatar.jpg') %}
     <img
-      src="{{ url_for('static', filename='images/avatar.jpg') }}"
+      src="{{ url_for('static', filename=('uploads/' + pfp) if not pfp.startswith('avatar') else 'images/' + pfp) }}"
       alt="User"
       class="profile-avatar"
     />

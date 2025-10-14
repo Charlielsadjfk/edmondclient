@@ -5,9 +5,10 @@
   </header>
 
   <!-- Tweet Composer -->
+  {% set pfp = session.get('profile_picture', 'avatar.jpg') %}
   <div class="tweet-composer">
     <img
-      src="{{ url_for('static', filename='images/avatar.jpg') }}"
+      src="{{ url_for('static', filename=('uploads/' + pfp) if not pfp.startswith('avatar') else 'images/' + pfp) }}"
       alt="Your avatar"
       class="composer-avatar"
     />
@@ -17,14 +18,68 @@
         placeholder="What's happening?"
         maxlength="280"
       ></textarea>
+
+      <!-- Media Preview -->
+      <div id="mediaPreview" style="display: none; margin: 12px 0">
+        <div style="position: relative; display: inline-block">
+          <img
+            id="previewImage"
+            src=""
+            alt="Preview"
+            style="max-width: 100%; border-radius: 16px; max-height: 300px"
+          />
+          <button
+            type="button"
+            id="removeMedia"
+            style="
+              position: absolute;
+              top: 8px;
+              right: 8px;
+              width: 32px;
+              height: 32px;
+              border-radius: 50%;
+              background: rgba(0, 0, 0, 0.75);
+              border: none;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              src="https://img.icons8.com/forma-regular/16/FFFFFF/delete-sign.png"
+              alt="remove"
+            />
+          </button>
+        </div>
+      </div>
+
       <div class="composer-actions">
         <div class="composer-icons">
-          <button type="button" title="Add photo">
+          <label
+            for="mediaUpload"
+            title="Add photo"
+            style="
+              cursor: pointer;
+              padding: 8px;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              transition: background 0.2s;
+            "
+          >
             <img
               src="https://img.icons8.com/forma-regular/18/1da1f2/image.png"
               alt="image"
             />
-          </button>
+            <input
+              type="file"
+              id="mediaUpload"
+              accept="image/*"
+              style="display: none"
+            />
+          </label>
           <button type="button" title="Add GIF">
             <img
               src="https://img.icons8.com/forma-regular/18/1da1f2/gif.png"
@@ -58,7 +113,6 @@
 
   <!-- Feed -->
   <div class="feed" id="feed">
-    <!-- Posts will be loaded here dynamically -->
     <div style="padding: 32px; text-align: center; color: #71767b">
       Loading posts...
     </div>
@@ -66,11 +120,19 @@
 </div>
 
 <script>
-  // Character counter
   const textarea = document.getElementById("tweetContent");
   const charCount = document.getElementById("charCount");
   const tweetBtn = document.getElementById("tweetBtn");
+  const mediaUpload = document.getElementById("mediaUpload");
+  const mediaPreview = document.getElementById("mediaPreview");
+  const previewImage = document.getElementById("previewImage");
+  const removeMedia = document.getElementById("removeMedia");
 
+  let selectedMediaFile = null;
+  let uploadedMediaUrl = null;
+  let uploadedMediaType = null;
+
+  // Character counter
   textarea.addEventListener("input", () => {
     const remaining = 280 - textarea.value.length;
     charCount.textContent = remaining;
@@ -89,6 +151,50 @@
       tweetBtn.style.opacity = "1";
     }
   });
+
+  // Media upload
+  mediaUpload.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      selectedMediaFile = file;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        previewImage.src = event.target.result;
+        mediaPreview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Remove media
+  removeMedia.addEventListener("click", () => {
+    selectedMediaFile = null;
+    uploadedMediaUrl = null;
+    uploadedMediaType = null;
+    mediaPreview.style.display = "none";
+    previewImage.src = "";
+    mediaUpload.value = "";
+  });
+
+  // Upload media to server
+  async function uploadMedia(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      return {
+        url: data.media_url,
+        type: data.media_type,
+      };
+    }
+    throw new Error("Upload failed");
+  }
 
   // Load posts
   async function loadPosts() {
@@ -130,16 +236,35 @@
     const timeAgo = getTimeAgo(post.created_at);
     const isOwnPost = post.username === '{{ session.get("username", "") }}';
 
+    let mediaHtml = "";
+    if (post.media_url) {
+      mediaHtml = `
+        <div class="tweet-media" style="margin-top: 12px;">
+          <img src="${post.media_url}" alt="Post media" style="width: 100%; border-radius: 16px; max-height: 400px; object-fit: cover;" />
+        </div>
+      `;
+    }
+
     article.innerHTML = `
       <img
-        src="{{ url_for('static', filename='images/avatar.jpg') }}"
+        src="${
+          post.profile_picture.startsWith("avatar")
+            ? "/static/images/" + escapeHtml(post.profile_picture)
+            : "/static/uploads/" + escapeHtml(post.profile_picture)
+        }"
         alt="User avatar"
         class="tweet-avatar"
+        style="cursor: pointer;"
+        onclick="window.location.href='/profile/${escapeHtml(post.username)}'"
       />
       <div class="tweet-content">
         <div class="tweet-header">
-          <span class="tweet-name">${escapeHtml(post.name)}</span>
-          <span class="tweet-username">@${escapeHtml(post.username)}</span>
+          <span class="tweet-name" style="cursor: pointer;" onclick="window.location.href='/profile/${escapeHtml(
+            post.username
+          )}'">${escapeHtml(post.name)}</span>
+          <span class="tweet-username" style="cursor: pointer;" onclick="window.location.href='/profile/${escapeHtml(
+            post.username
+          )}'">@${escapeHtml(post.username)}</span>
           <span class="tweet-time">· ${timeAgo}</span>
           ${
             isOwnPost
@@ -158,6 +283,7 @@
           }
         </div>
         <p class="tweet-text">${escapeHtml(post.content)}</p>
+        ${mediaHtml}
         <div class="tweet-actions">
           <button class="action-btn">
             <img
@@ -175,13 +301,19 @@
             />
             <span>0</span>
           </button>
-          <button class="action-btn">
+          <button class="action-btn ${
+            post.is_liked ? "liked" : ""
+          }" onclick="toggleLike(${post.postID}, this)">
             <img
-              src="https://img.icons8.com/forma-regular/18/71767b/like.png"
+              src="https://img.icons8.com/forma-regular/18/${
+                post.is_liked ? "f4212e" : "71767b"
+              }/like.png"
               alt="like"
               class="icon"
             />
-            <span>0</span>
+            <span style="color: ${post.is_liked ? "#f4212e" : "#71767b"}">${
+      post.like_count
+    }</span>
           </button>
           <button class="action-btn">
             <img
@@ -195,6 +327,25 @@
     `;
 
     return article;
+  }
+
+  // Toggle like
+  async function toggleLike(postId, button) {
+    const isLiked = button.classList.contains("liked");
+    const endpoint = isLiked
+      ? `/api/posts/${postId}/unlike`
+      : `/api/posts/${postId}/like`;
+
+    try {
+      const response = await fetch(endpoint, { method: "POST" });
+      const data = await response.json();
+
+      if (data.success || !isLiked) {
+        loadPosts();
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
+    }
   }
 
   // Delete post
@@ -241,12 +392,23 @@
     tweetBtn.textContent = "Posting...";
 
     try {
+      // Upload media if selected
+      if (selectedMediaFile) {
+        const mediaData = await uploadMedia(selectedMediaFile);
+        uploadedMediaUrl = mediaData.url;
+        uploadedMediaType = mediaData.type;
+      }
+
       const response = await fetch("/api/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ content }),
+        body: JSON.stringify({
+          content,
+          media_url: uploadedMediaUrl,
+          media_type: uploadedMediaType,
+        }),
       });
 
       const data = await response.json();
@@ -255,6 +417,15 @@
         textarea.value = "";
         charCount.textContent = "280";
         charCount.style.color = "#71767b";
+
+        // Clear media
+        selectedMediaFile = null;
+        uploadedMediaUrl = null;
+        uploadedMediaType = null;
+        mediaPreview.style.display = "none";
+        previewImage.src = "";
+        mediaUpload.value = "";
+
         loadPosts();
       } else {
         alert(data.message || "Error creating post");
