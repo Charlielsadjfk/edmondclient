@@ -140,6 +140,24 @@
   box-shadow: 3px 3px 0 #000;
 }
 
+.composer-icons label {
+  background: linear-gradient(135deg, #ffff00, #ff00ff);
+  border: 2px solid #000;
+  color: #000;
+  font-size: 18px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.3s;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.composer-icons label:hover {
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #000;
+}
+
 .composer-icons button:active {
   transform: translate(1px, 1px);
   box-shadow: 1px 1px 0 #000;
@@ -272,7 +290,7 @@
 .tweet-text {
   color: #00ffff;
   font-size: 15px;
-  line-height: 22px;
+  line-height: 20px;
   margin-bottom: 12px;
   word-wrap: break-word;
   text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
