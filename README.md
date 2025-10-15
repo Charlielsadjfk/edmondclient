@@ -25,7 +25,7 @@ The task is to produce a social network aimed at creating a global community whe
 
 **30/07/25 - Project Design**
 
-**OVERVIEW**
+(H2)**OVERVIEW**(H2)
 
 Went over website design. E.g colour scheme, typography, icon styles/set, layout/wireframe
 
