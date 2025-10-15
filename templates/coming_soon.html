@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Coming Soon - Sigma Reviews</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/coming_soon.css') }}"
+    />
+  </head>
+  <body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
+    <div class="container">
+      <div class="glitch-wrapper">
+        <h1 class="glitch" data-text="COMING SOON">COMING SOON</h1>
+      </div>
+
+      <div class="feature-name">{{ feature_name }}</div>
+
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+
+      <p class="message">
+        This feature is under construction! <br />
+        Stay tuned for something awesome! ✨
+      </p>
+
+      <button class="back-button" onclick="goBack()">
+        <span class="button-text">← GO BACK</span>
+        <span class="button-glow"></span>
+      </button>
+    </div>
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+      // Prevent going back if there's no history
+      if (window.history.length <= 1) {
+        document.querySelector(".back-button").onclick = function () {
+          window.location.href = "{{ url_for('home') }}";
+        };
+      }
+    </script>
+  </body>
+</html>

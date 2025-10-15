@@ -45,8 +45,8 @@
   </section>
 
   <nav class="profile-tabs">
-    <button class="tab-button active" data-tab="tweets">Tweets</button>
-    <button class="tab-button" data-tab="replies">Tweets & replies</button>
+    <button class="tab-button active" data-tab="posts">posts</button>
+    <button class="tab-button" data-tab="replies">posts & replies</button>
     <button class="tab-button" data-tab="media">Media</button>
     <button class="tab-button" data-tab="likes">Likes</button>
   </nav>
@@ -63,7 +63,7 @@
   const currentUsername = '{{ session.get("username", "") }}';
   const currentUserId = {{ session.get('user_id', 0) }};
   let profileUserId = null;
-  let currentTab = 'tweets';
+  let currentTab = 'posts';
   let isOwnProfile = profileUsername === currentUsername;
 
   // Load profile data
@@ -132,7 +132,7 @@
         }
 
         // Load posts
-        loadTabContent('tweets');
+        loadTabContent('posts');
       }
     } catch (error) {
       console.error('Error loading profile:', error);
@@ -193,11 +193,11 @@
     `;
 
     switch(tab) {
-      case 'tweets':
+      case 'posts':
         await loadUserPosts();
         break;
       case 'replies':
-        showComingSoon('Tweets & replies');
+        showComingSoon('posts & replies');
         break;
       case 'media':
         await loadUserMediaPosts();
@@ -217,8 +217,8 @@
       if (data.success && data.posts.length > 0) {
         profileFeed.innerHTML = '';
         data.posts.forEach(post => {
-          const tweetEl = createTweetElement(post);
-          profileFeed.appendChild(tweetEl);
+          const postEl = createpostElement(post);
+          profileFeed.appendChild(postEl);
         });
       } else {
         profileFeed.innerHTML = `
@@ -246,8 +246,8 @@
       if (data.success && data.posts.length > 0) {
         profileFeed.innerHTML = '';
         data.posts.forEach(post => {
-          const tweetEl = createTweetElement(post);
-          profileFeed.appendChild(tweetEl);
+          const postEl = createpostElement(post);
+          profileFeed.appendChild(postEl);
         });
       } else {
         profileFeed.innerHTML = `
@@ -275,10 +275,10 @@
     `;
   }
 
-  // Create tweet element
-  function createTweetElement(post) {
+  // Create post element
+  function createpostElement(post) {
     const article = document.createElement('article');
-    article.className = 'tweet-card';
+    article.className = 'post-card';
 
     const timeAgo = getTimeAgo(post.created_at);
     const isOwnPost = post.userID === currentUserId;
@@ -286,14 +286,14 @@
     let mediaHtml = '';
     if (post.media_url) {
       mediaHtml = `
-        <div class="tweet-media">
+        <div class="post-media">
           <img src="${post.media_url}" alt="Post media" style="width: 100%; border-radius: 16px; margin-top: 12px;" />
         </div>
       `;
     }
 
     article.innerHTML = `
-      <div class="tweet-card-header">
+      <div class="post-card-header">
         {% set pfp = session.get('profile_picture', 'avatar.jpg') %}
         <img
           src="${
@@ -302,13 +302,13 @@
             : "/static/uploads/" + escapeHtml(post.profile_picture)
         }"
           alt="User avatar"
-          class="tweet-card-avatar"
+          class="post-card-avatar"
         />
         <div style="flex: 1; min-width: 0;">
-          <div class="tweet-card-info">
-            <span class="tweet-card-name">${escapeHtml(post.name)}</span>
-            <span class="tweet-card-username">@${escapeHtml(post.username)}</span>
-            <span class="tweet-card-time">· ${timeAgo}</span>
+          <div class="post-card-info">
+            <span class="post-card-name">${escapeHtml(post.name)}</span>
+            <span class="post-card-username">@${escapeHtml(post.username)}</span>
+            <span class="post-card-time">· ${timeAgo}</span>
           </div>
         </div>
         ${isOwnPost ? `
@@ -323,15 +323,15 @@
         </button>
         ` : ''}
       </div>
-      <div class="tweet-card-content">${escapeHtml(post.content)}</div>
+      <div class="post-card-content">${escapeHtml(post.content)}</div>
       ${mediaHtml}
-      <div class="tweet-card-actions">
+      <div class="post-card-actions">
         <button>
           <img src="https://img.icons8.com/forma-regular/18/71767b/speech-bubble.png" alt="reply" />
           <span>0</span>
         </button>
         <button>
-          <img src="https://img.icons8.com/forma-regular/18/71767b/retweet.png" alt="retweet" />
+          <img src="https://img.icons8.com/forma-regular/18/71767b/retweet.png" alt="repost" />
           <span>0</span>
         </button>
         <button onclick="toggleLike(${post.postID}, this)" class="${post.is_liked ? 'liked' : ''}">
@@ -419,7 +419,7 @@
 </script>
 {% endblock %}); }); } else { profileFeed.innerHTML = `
 <div class="empty-state">
-  ${isOwnProfile ? "You haven't posted anything yet. Share your first tweet!" :
+  ${isOwnProfile ? "You haven't posted anything yet. Share your first post!" :
   "No posts yet."}
 </div>
 `; } } catch (error) { console.error('Error loading posts:', error);
@@ -431,4 +431,4 @@ profileFeed.innerHTML = `
 const response = await fetch(`/api/posts/user/${profileUserId ||
 currentUserId}/media`); const data = await response.json(); if (data.success &&
 data.posts.length > 0) { profileFeed.innerHTML = ''; data.posts.forEach(post =>
-{ const tweetEl = createTweetElement(post); profileFeed.appendChild(tweetEl
+{ const postEl = createpostElement(post); profileFeed.appendChild(postEl

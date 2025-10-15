@@ -31,6 +31,13 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@app.route("/post", methods=["POST"])
+def post():
+    # Save the post to your database
+    # ...
+    return redirect(url_for("home"))
+
+
 # Login page
 @app.route("/")
 @app.route("/login")
@@ -118,6 +125,29 @@ def home():
     if "user_id" not in session:
         return redirect(url_for("login"))
     return render_template("home_page.html")
+
+
+# Coming Soon page
+@app.route("/coming-soon/<feature>")
+def coming_soon(feature):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    # Format feature name for display
+    feature_names = {
+        "explore": "Explore",
+        "notifications": "Notifications",
+        "messages": "Messages",
+        "bookmarks": "Bookmarks",
+        "lists": "Lists",
+        "gif": "GIF Picker",
+        "poll": "Polls",
+        "emoji": "Emoji Picker",
+        "search": "Search",
+    }
+
+    feature_display = feature_names.get(feature, feature.replace("-", " ").title())
+    return render_template("coming_soon.html", feature_name=feature_display)
 
 
 # API endpoint to get all posts
@@ -489,6 +519,11 @@ def logout():
     session.clear()
     flash("You have been logged out successfully", "success")
     return redirect(url_for("login"))
+
+
+@app.route("/manifest.json")
+def manifest():
+    return app.send_static_file("../manifest.json")
 
 
 if __name__ == "__main__":

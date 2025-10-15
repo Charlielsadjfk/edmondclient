@@ -34,8 +34,8 @@
   }
 }
 
-/* Tweet Composer */
-.tweet-composer {
+/* post Composer */
+.post-composer {
   display: flex;
   gap: 12px;
   padding: 16px;
@@ -48,7 +48,7 @@
   position: relative;
 }
 
-.tweet-composer::before {
+.post-composer::before {
   content: "✨";
   position: absolute;
   top: 5px;
@@ -163,7 +163,7 @@
   box-shadow: 1px 1px 0 #000;
 }
 
-.tweet-post-btn {
+.post-post-btn {
   background: linear-gradient(135deg, #ff00ff, #00ffff);
   color: #000;
   border: 3px solid #000;
@@ -178,13 +178,13 @@
   letter-spacing: 1px;
 }
 
-.tweet-post-btn:hover {
+.post-post-btn:hover {
   background: linear-gradient(135deg, #ffff00, #ff00ff);
   transform: translate(-2px, -2px);
   box-shadow: 5px 5px 0 #000;
 }
 
-.tweet-post-btn:active {
+.post-post-btn:active {
   transform: translate(1px, 1px);
   box-shadow: 2px 2px 0 #000;
 }
@@ -195,7 +195,7 @@
   flex-direction: column;
 }
 
-.tweet {
+.post {
   display: flex;
   gap: 12px;
   padding: 16px;
@@ -210,7 +210,7 @@
   position: relative;
 }
 
-.tweet::before {
+.post::before {
   content: "★";
   position: absolute;
   top: 5px;
@@ -221,7 +221,7 @@
   transition: opacity 0.3s;
 }
 
-.tweet:hover {
+.post:hover {
   background: linear-gradient(
     90deg,
     rgba(255, 0, 255, 0.15),
@@ -231,7 +231,7 @@
   transform: translateX(5px);
 }
 
-.tweet:hover::before {
+.post:hover::before {
   opacity: 1;
   animation: twinkle 0.5s infinite;
 }
@@ -246,7 +246,7 @@
   }
 }
 
-.tweet-avatar {
+.post-avatar {
   width: 48px;
   height: 48px;
   border-radius: 0;
@@ -256,38 +256,38 @@
   transform: rotate(5deg);
 }
 
-.tweet-content {
+.post-content {
   flex: 1;
   min-width: 0;
 }
 
-.tweet-header {
+.post-header {
   display: flex;
   align-items: baseline;
   gap: 8px;
   margin-bottom: 8px;
 }
 
-.tweet-name {
+.post-name {
   font-weight: bold;
   color: #ff00ff;
   font-size: 15px;
   text-shadow: 1px 1px 0 #000;
 }
 
-.tweet-username {
+.post-username {
   color: #00ffff;
   font-size: 14px;
   font-weight: bold;
 }
 
-.tweet-time {
+.post-time {
   color: #ffff00;
   font-size: 13px;
   font-weight: bold;
 }
 
-.tweet-text {
+.post-text {
   color: #00ffff;
   font-size: 15px;
   line-height: 20px;
@@ -296,7 +296,7 @@
   text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
 }
 
-.tweet-actions {
+.post-actions {
   display: flex;
   justify-content: space-between;
   max-width: 425px;
@@ -337,8 +337,8 @@
 }
 
 @media (max-width: 768px) {
-  .tweet-composer,
-  .tweet {
+  .post-composer,
+  .post {
     padding: 12px;
   }
 

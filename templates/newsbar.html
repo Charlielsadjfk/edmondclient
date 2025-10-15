@@ -5,27 +5,36 @@
       alt="search"
       class="search-icon"
     />
-    <input type="text" placeholder="Search" />
+    <input
+      type="text"
+      placeholder="Search"
+      onclick="window.location.href='{{ url_for('coming_soon', feature='search') }}'"
+      readonly
+      style="cursor: pointer"
+    />
   </div>
 
   <section class="trending">
-    <h2>Trending Shows</h2>
+    <h2>Trending</h2>
     <ul>
       <li>
-        <span class="topic">COVID19 · Last night</span>
-        England's Chief Medical Officer says the UK is at the most dangerous
-        time of the pandemic
+        <span class="topic">Anime · 4h ago</span>
+        Episode 6 out of 7 of "Sigma Reviews is Awsome" released. Final releases
+        is 10 days!
       </li>
       <li>
-        <span class="topic">US news · 4h ago</span>
-        Parler may go offline following suspensions by Amazon, Apple and Google
+        <span class="topic">Hollywood · 2d ago</span>
+        Co-Founder of Sigma Reviews, John Sigma, set to debut next april 1st
       </li>
       <li>
-        <span class="topic">India · 1h ago</span>
-        India hold on to earn a draw on Day 5 in Sydney Test
+        <span class="topic">Short Films · 4d ago</span>
+        Film review platform, "Sigma Reviews" introducing "Short Films" catagory
+        after years of waiting
       </li>
     </ul>
-    <a class="show-more" href="#">Show more</a>
+    <a class="show-more" href="{{ url_for('coming_soon', feature='explore') }}"
+      >Show more</a
+    >
   </section>
 
   <section class="follow-next">
@@ -36,10 +45,14 @@
         class="follow-avatar"
       />
       <div>
-        <strong>Bessie Cooper</strong>
-        <span>@alessandro</span>
+        <strong>John Sigma</strong>
+        <span>@JohnSigma6</span>
       </div>
-      <button>Follow</button>
+      <button
+        onclick="window.location.href='{{ url_for('coming_soon', feature='explore') }}'"
+      >
+        Follow
+      </button>
     </div>
     <div class="follow-card">
       <img
@@ -47,11 +60,17 @@
         class="follow-avatar"
       />
       <div>
-        <strong>Jenny Wilson</strong>
-        <span>@gabriel</span>
+        <strong>Spiderman</strong>
+        <span>@tomholland</span>
       </div>
-      <button>Follow</button>
+      <button
+        onclick="window.location.href='{{ url_for('coming_soon', feature='explore') }}'"
+      >
+        Follow
+      </button>
     </div>
-    <a class="show-more" href="#">Show more</a>
+    <a class="show-more" href="{{ url_for('coming_soon', feature='explore') }}"
+      >Show more</a
+    >
   </section>
 </aside>

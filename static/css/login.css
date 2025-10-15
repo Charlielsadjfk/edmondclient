@@ -118,29 +118,44 @@ body::after {
   margin-bottom: 36px;
 }
 
-.logo-icon {
-  width: 60px;
-  height: 60px;
-  filter: drop-shadow(0 0 10px #ffff00) drop-shadow(0 0 20px #ff00ff);
-  animation: logoSpin 3s linear infinite, logoPulse 1.5s ease-in-out infinite;
+.sigma-logo-login {
+  font-size: 80px;
+  font-weight: bold;
+  color: #000;
+  text-shadow: 4px 4px 0 #ffff00, -4px -4px 0 #00ffff, 0 0 20px #ff00ff,
+    0 0 40px #00ffff;
+  animation: sigmaLoginRotate 4s linear infinite,
+    sigmaLoginPulse 2s ease-in-out infinite;
+  font-family: "Press Start 2P", serif;
+  line-height: 1;
+  display: inline-block;
 }
 
-@keyframes logoSpin {
-  from {
-    transform: rotate(0deg);
+@keyframes sigmaLoginRotate {
+  0%,
+  100% {
+    transform: rotate(-10deg);
   }
-  to {
-    transform: rotate(360deg);
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
   }
 }
 
-@keyframes logoPulse {
+@keyframes sigmaLoginPulse {
   0%,
   100% {
     transform: scale(1);
+    filter: drop-shadow(0 0 15px #ff00ff) drop-shadow(0 0 30px #00ffff);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 30px #00ffff) drop-shadow(0 0 60px #ff00ff);
   }
 }
 
@@ -364,5 +379,9 @@ input::placeholder {
 
   .subtitle {
     font-size: 18px;
+  }
+
+  .sigma-logo-login {
+    font-size: 60px;
   }
 }

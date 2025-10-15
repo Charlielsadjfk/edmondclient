@@ -223,7 +223,7 @@
   flex-direction: column;
 }
 
-.tweet-card {
+.post-card {
   padding: 16px;
   border-bottom: 3px dashed #00ffff;
   transition: all 0.3s;
@@ -236,7 +236,7 @@
   position: relative;
 }
 
-.tweet-card::before {
+.post-card::before {
   content: "✨";
   position: absolute;
   top: 10px;
@@ -246,7 +246,7 @@
   transition: opacity 0.3s;
 }
 
-.tweet-card:hover {
+.post-card:hover {
   background: linear-gradient(
     90deg,
     rgba(255, 0, 255, 0.1),
@@ -256,7 +256,7 @@
   transform: translateX(5px);
 }
 
-.tweet-card:hover::before {
+.post-card:hover::before {
   opacity: 1;
   animation: sparkleRotate 1s infinite;
 }
@@ -270,13 +270,13 @@
   }
 }
 
-.tweet-card-header {
+.post-card-header {
   display: flex;
   gap: 12px;
   margin-bottom: 0px;
 }
 
-.tweet-card-avatar {
+.post-card-avatar {
   width: 48px;
   height: 48px;
   border-radius: 0;
@@ -286,33 +286,33 @@
   transform: rotate(5deg);
 }
 
-.tweet-card-info {
+.post-card-info {
   display: flex;
   align-items: baseline;
   gap: 8px;
   flex: 1;
 }
 
-.tweet-card-name {
+.post-card-name {
   font-weight: bold;
   color: #ff00ff;
   font-size: 15px;
   text-shadow: 1px 1px 0 #000;
 }
 
-.tweet-card-username {
+.post-card-username {
   color: #00ffff;
   font-size: 14px;
   font-weight: bold;
 }
 
-.tweet-card-time {
+.post-card-time {
   color: #ffff00;
   font-size: 13px;
   font-weight: bold;
 }
 
-.tweet-card-content {
+.post-card-content {
   color: #00ffff;
   font-size: 15px;
   margin-bottom: 12px;
@@ -320,14 +320,14 @@
   text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
 }
 
-.tweet-card-actions {
+.post-card-actions {
   display: flex;
   justify-content: space-between;
   max-width: 425px;
   margin-left: 60px;
 }
 
-.tweet-card-actions button {
+.post-card-actions button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -342,14 +342,14 @@
   box-shadow: 2px 2px 0 #000;
 }
 
-.tweet-card-actions button:hover {
+.post-card-actions button:hover {
   background: #ff00ff;
   color: #000;
   transform: translate(-1px, -1px);
   box-shadow: 3px 3px 0 #000;
 }
 
-.tweet-card-actions button:active {
+.post-card-actions button:active {
   transform: translate(1px, 1px);
   box-shadow: 1px 1px 0 #000;
 }

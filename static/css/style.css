@@ -71,34 +71,53 @@ body {
 }
 
 .logo-wrapper {
-  padding: 12px 0;
-  margin-bottom: 4px;
+  padding: 20px 0;
+  margin-bottom: 8px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.logo-wrapper svg {
-  width: 32px;
-  height: 32px;
-  filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #ff00ff);
-  animation: rotate 4s linear infinite, pulse 2s ease-in-out infinite;
+.sigma-logo {
+  font-size: 64px;
+  font-weight: bold;
+  color: #000;
+  text-shadow: 3px 3px 0 #ffff00, -3px -3px 0 #00ffff, 0 0 20px #ff00ff,
+    0 0 40px #00ffff;
+  animation: sigmaRotate 4s linear infinite, sigmaPulse 2s ease-in-out infinite;
+  font-family: "Press Start 2P", serif;
+  line-height: 1;
+  display: inline-block;
+  width: 100%;
+  max-width: 250px;
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
+@keyframes sigmaRotate {
+  0%,
+  100% {
+    transform: rotate(-5deg);
   }
-  to {
-    transform: rotate(360deg);
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
   }
 }
 
-@keyframes pulse {
+@keyframes sigmaPulse {
   0%,
   100% {
     transform: scale(1);
+    filter: drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #00ffff);
   }
   50% {
     transform: scale(1.1);
+    filter: drop-shadow(0 0 20px #00ffff) drop-shadow(0 0 40px #ff00ff);
   }
 }
 
@@ -159,7 +178,7 @@ body {
   filter: invert(1) drop-shadow(0 0 3px #00ffff);
 }
 
-.tweet-btn {
+.post-btn {
   display: block;
   width: 100%;
   margin: 16px 0;
@@ -180,12 +199,12 @@ body {
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.tweet-btn:hover {
+.post-btn:hover {
   transform: translate(-2px, -2px) scale(1.05);
   box-shadow: 6px 6px 0 #000;
 }
 
-.tweet-btn:active {
+.post-btn:active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 #000;
 }
@@ -285,6 +304,11 @@ body {
     max-width: 100%;
   }
 
+  .sigma-logo {
+    font-size: 40px;
+    max-width: 100%;
+  }
+
   .menu-links a span {
     display: none;
   }
@@ -296,14 +320,14 @@ body {
     padding: 0;
   }
 
-  .tweet-btn {
+  .post-btn {
     width: 50px;
     height: 50px;
     padding: 0;
     font-size: 0;
   }
 
-  .tweet-btn::before {
+  .post-btn::before {
     content: "✨";
     font-size: 20px;
   }

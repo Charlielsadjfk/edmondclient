@@ -1,20 +1,21 @@
 {% extends 'layout.html' %} {% block content %}
 <div class="home-wrapper">
   <header class="home-header">
-    <h2>Home</h2>
+    <title>home</title>
+    <h2>Sigma Reviews</h2>
   </header>
 
-  <!-- Tweet Composer -->
+  <!-- post Composer -->
   {% set pfp = session.get('profile_picture', 'avatar.jpg') %}
-  <div class="tweet-composer">
+  <div class="post-composer">
     <img
       src="{{ url_for('static', filename=('uploads/' + pfp) if not pfp.startswith('avatar') else 'images/' + pfp) }}"
       alt="Your avatar"
       class="composer-avatar"
     />
-    <form class="composer-form" id="tweetForm">
+    <form class="composer-form" id="postForm">
       <textarea
-        id="tweetContent"
+        id="postContent"
         placeholder="What's happening?"
         maxlength="280"
       ></textarea>
@@ -79,32 +80,45 @@
               style="display: none"
             />
           </label>
-          <button type="button" title="Add GIF">
-            <img
-              src="https://img.icons8.com/forma-regular/18/1da1f2/gif.png"
-              alt="gif"
-            />
-          </button>
-          <button type="button" title="Add poll">
-            <img
-              src="https://img.icons8.com/forma-regular/18/1da1f2/poll-topic.png"
-              alt="poll"
-            />
-          </button>
-          <button type="button" title="Add emoji">
-            <img
-              src="https://img.icons8.com/forma-regular/18/1da1f2/happy.png"
-              alt="emoji"
-            />
-          </button>
+          <a
+            href="{{ url_for('coming_soon', feature='gif') }}"
+            style="text-decoration: none"
+          >
+            <button type="button" title="Add GIF">
+              <img
+                src="https://img.icons8.com/forma-regular/18/1da1f2/gif.png"
+                alt="gif"
+              />
+            </button>
+          </a>
+          <a
+            href="{{ url_for('coming_soon', feature='poll') }}"
+            style="text-decoration: none"
+          >
+            <button type="button" title="Add poll">
+              <img
+                src="https://img.icons8.com/forma-regular/18/1da1f2/poll-topic.png"
+                alt="poll"
+              />
+            </button>
+          </a>
+          <a
+            href="{{ url_for('coming_soon', feature='emoji') }}"
+            style="text-decoration: none"
+          >
+            <button type="button" title="Add emoji">
+              <img
+                src="https://img.icons8.com/forma-regular/18/1da1f2/happy.png"
+                alt="emoji"
+              />
+            </button>
+          </a>
         </div>
         <div style="display: flex; align-items: center; gap: 12px">
           <span id="charCount" style="color: #71767b; font-size: 13px"
             >280</span
           >
-          <button type="submit" class="tweet-post-btn" id="tweetBtn">
-            Tweet
-          </button>
+          <button type="submit" class="post-post-btn" id="postBtn">Post</button>
         </div>
       </div>
     </form>
@@ -119,9 +133,9 @@
 </div>
 
 <script>
-  const textarea = document.getElementById("tweetContent");
+  const textarea = document.getElementById("postContent");
   const charCount = document.getElementById("charCount");
-  const tweetBtn = document.getElementById("tweetBtn");
+  const postBtn = document.getElementById("postBtn");
   const mediaUpload = document.getElementById("mediaUpload");
   const mediaPreview = document.getElementById("mediaPreview");
   const previewImage = document.getElementById("previewImage");
@@ -138,16 +152,16 @@
 
     if (remaining < 0) {
       charCount.style.color = "#f4212e";
-      tweetBtn.disabled = true;
-      tweetBtn.style.opacity = "0.5";
+      postBtn.disabled = true;
+      postBtn.style.opacity = "0.5";
     } else if (remaining < 20) {
       charCount.style.color = "#ffd400";
-      tweetBtn.disabled = false;
-      tweetBtn.style.opacity = "1";
+      postBtn.disabled = false;
+      postBtn.style.opacity = "1";
     } else {
       charCount.style.color = "#71767b";
-      tweetBtn.disabled = false;
-      tweetBtn.style.opacity = "1";
+      postBtn.disabled = false;
+      postBtn.style.opacity = "1";
     }
   });
 
@@ -207,13 +221,13 @@
         feed.innerHTML = "";
 
         data.posts.forEach((post) => {
-          const tweetEl = createTweetElement(post);
-          feed.appendChild(tweetEl);
+          const postEl = createpostElement(post);
+          feed.appendChild(postEl);
         });
       } else {
         feed.innerHTML = `
           <div style="padding: 32px; text-align: center; color: #71767b;">
-            No posts yet. Be the first to tweet!
+            No posts yet. Be the first to post!
           </div>
         `;
       }
@@ -227,10 +241,10 @@
     }
   }
 
-  // Create tweet element
-  function createTweetElement(post) {
+  // Create post element
+  function createpostElement(post) {
     const article = document.createElement("article");
-    article.className = "tweet";
+    article.className = "post";
 
     const timeAgo = getTimeAgo(post.created_at);
     const isOwnPost = post.username === '{{ session.get("username", "") }}';
@@ -238,7 +252,7 @@
     let mediaHtml = "";
     if (post.media_url) {
       mediaHtml = `
-        <div class="tweet-media" style="margin-top: 12px;">
+        <div class="post-media" style="margin-top: 12px;">
           <img src="${post.media_url}" alt="Post media" style="width: 100%; border-radius: 16px; max-height: 400px; object-fit: cover;" />
         </div>
       `;
@@ -252,29 +266,35 @@
             : "/static/uploads/" + escapeHtml(post.profile_picture)
         }"
         alt="User avatar"
-        class="tweet-avatar"
+        class="post-avatar"
         style="cursor: pointer;"
-        onclick="window.location.href='/profile/${escapeHtml(post.username)}'"
       />
-      <div class="tweet-content">
-        <div class="tweet-header">
-          <span class="tweet-name" style="cursor: pointer;" onclick="window.location.href='/profile/${escapeHtml(
+      <div class="post-content">
+        <div class="post-header">
+          <span class="post-name" style="cursor: pointer;">${escapeHtml(
+            post.name
+          )}</span>
+          <span class="post-username" style="cursor: pointer;">@${escapeHtml(
             post.username
-          )}'">${escapeHtml(post.name)}</span>
-          <span class="tweet-username" style="cursor: pointer;" onclick="window.location.href='/profile/${escapeHtml(
-            post.username
-          )}'">@${escapeHtml(post.username)}</span>
-          <span class="tweet-time">· ${timeAgo}</span>
+          )}</span>
+          <span class="post-time">· ${timeAgo}</span>
           ${
             isOwnPost
-              ? `
-          `
+              ? `<button
+                  class="delete-post-btn"
+                  onclick="deletePost(${post.postID})"
+                  style="background: transparent; border: none; color: #71767b; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: all 0.2s; margin-left: auto;"
+                  onmouseover="this.style.color='#f4212e'; this.style.background='rgba(244, 33, 46, 0.1)'"
+                  onmouseout="this.style.color='#71767b'; this.style.background='transparent'"
+                >
+                  <img src="https://img.icons8.com/forma-regular/16/71767b/trash.png" alt="delete" style="vertical-align: top;" />
+                </button>`
               : ""
           }
         </div>
-        <p class="tweet-text">${escapeHtml(post.content)}</p>
+        <p class="post-text">${escapeHtml(post.content)}</p>
         ${mediaHtml}
-        <div class="tweet-actions">
+        <div class="post-actions">
           <button class="action-btn">
             <img
               src="https://img.icons8.com/forma-regular/18/71767b/speech-bubble.png"
@@ -362,8 +382,8 @@
     }
   }
 
-  // Submit tweet
-  document.getElementById("tweetForm").addEventListener("submit", async (e) => {
+  // Submit post
+  document.getElementById("postForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const content = textarea.value.trim();
@@ -378,8 +398,8 @@
       return;
     }
 
-    tweetBtn.disabled = true;
-    tweetBtn.textContent = "Posting...";
+    postBtn.disabled = true;
+    postBtn.textContent = "Posting...";
 
     try {
       // Upload media if selected
@@ -424,8 +444,8 @@
       console.error("Error creating post:", error);
       alert("Error creating post. Please try again.");
     } finally {
-      tweetBtn.disabled = false;
-      tweetBtn.textContent = "Tweet";
+      postBtn.disabled = false;
+      postBtn.textContent = "Post";
     }
   });
 

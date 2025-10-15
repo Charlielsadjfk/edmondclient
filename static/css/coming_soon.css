@@ -1,0 +1,451 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  background-image: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 0, 255, 0.03) 2px,
+      rgba(255, 0, 255, 0.03) 4px
+    ),
+    linear-gradient(135deg, #000 0%, #1a0033 50%, #000 100%);
+  color: #00ffff;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Animated starfield background
+.stars,
+.twinkling {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.stars {
+  background: #000
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4////fwAJ+wP9CNHoHgAAAABJRU5ErkJggg==")
+    repeat top center;
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.twinkling {
+  background: transparent
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFUlEQVQImWP4////fwYGBgYGBgYGBgB4+QP/qpTIkgAAAABJRU5ErkJggg==")
+    repeat top center;
+  z-index: 1;
+  animation: move-twink-back 200s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+} */
+
+/* Container */
+.container {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+  max-width: 900px;
+  width: 100%;
+}
+
+/* Glitch effect wrapper */
+.glitch-wrapper {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+/* Main glitch text */
+.glitch {
+  font-size: clamp(40px, 8vw, 100px);
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+  color: #fff;
+  letter-spacing: 0.1em;
+  animation: glitch-skew 1s infinite linear alternate-reverse,
+    colorShift 5s infinite linear;
+  text-shadow: 4px 4px 0 #ff00ff, -4px -4px 0 #00ffff, 0 0 20px #fff,
+    0 0 40px #ff00ff, 0 0 60px #00ffff, 0 0 80px #ffff00;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch-anim 2s infinite linear alternate-reverse;
+  color: #ff00ff;
+  z-index: -1;
+  text-shadow: 2px 0 #ff00ff;
+}
+
+.glitch::after {
+  animation: glitch-anim2 3s infinite linear alternate-reverse;
+  color: #00ffff;
+  z-index: -2;
+  text-shadow: -2px 0 #00ffff;
+}
+
+@keyframes glitch-anim {
+  0% {
+    clip-path: inset(40% 0 61% 0);
+    transform: translate(2px, -2px);
+  }
+  20% {
+    clip-path: inset(92% 0 1% 0);
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    clip-path: inset(43% 0 1% 0);
+    transform: translate(2px, 2px);
+  }
+  60% {
+    clip-path: inset(25% 0 58% 0);
+    transform: translate(-2px, -2px);
+  }
+  80% {
+    clip-path: inset(54% 0 7% 0);
+    transform: translate(2px, -2px);
+  }
+  100% {
+    clip-path: inset(58% 0 43% 0);
+    transform: translate(-2px, 2px);
+  }
+}
+
+@keyframes glitch-anim2 {
+  0% {
+    clip-path: inset(65% 0 15% 0);
+    transform: translate(-2px, 2px);
+  }
+  20% {
+    clip-path: inset(12% 0 78% 0);
+    transform: translate(2px, -2px);
+  }
+  40% {
+    clip-path: inset(47% 0 23% 0);
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    clip-path: inset(85% 0 5% 0);
+    transform: translate(2px, 2px);
+  }
+  80% {
+    clip-path: inset(38% 0 34% 0);
+    transform: translate(-2px, 2px);
+  }
+  100% {
+    clip-path: inset(76% 0 21% 0);
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes glitch-skew {
+  0% {
+    transform: skew(0deg);
+  }
+  10% {
+    transform: skew(-2deg);
+  }
+  20% {
+    transform: skew(2deg);
+  }
+  30% {
+    transform: skew(-2deg);
+  }
+  40% {
+    transform: skew(2deg);
+  }
+  50% {
+    transform: skew(0deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+
+@keyframes colorShift {
+  0% {
+    text-shadow: 4px 4px 0 #ff00ff, -4px -4px 0 #00ffff, 0 0 20px #fff,
+      0 0 40px #ff00ff, 0 0 60px #00ffff, 0 0 80px #ffff00;
+  }
+  33% {
+    text-shadow: 4px 4px 0 #00ffff, -4px -4px 0 #ffff00, 0 0 20px #fff,
+      0 0 40px #00ffff, 0 0 60px #ffff00, 0 0 80px #ff00ff;
+  }
+  66% {
+    text-shadow: 4px 4px 0 #ffff00, -4px -4px 0 #ff00ff, 0 0 20px #fff,
+      0 0 40px #ffff00, 0 0 60px #ff00ff, 0 0 80px #00ffff;
+  }
+  100% {
+    text-shadow: 4px 4px 0 #ff00ff, -4px -4px 0 #00ffff, 0 0 20px #fff,
+      0 0 40px #ff00ff, 0 0 60px #00ffff, 0 0 80px #ffff00;
+  }
+}
+
+/* Feature name */
+.feature-name {
+  font-size: clamp(16px, 3vw, 24px);
+  color: #ffff00;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  animation: pulse 2s ease-in-out infinite;
+  text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00, 0 0 30px #ffff00,
+    2px 2px 0 #000;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* Loading bar */
+.loading-bar {
+  width: 80%;
+  max-width: 500px;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 3px solid #fff;
+  margin: 40px auto;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px #ff00ff, inset 0 0 20px rgba(255, 0, 255, 0.3);
+}
+
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #ff00ff,
+    #00ffff,
+    #ffff00,
+    #ff00ff,
+    #00ffff,
+    #ffff00
+  );
+  background-size: 200% 100%;
+  width: 60%;
+  animation: loading 2s ease-in-out infinite, gradient 3s linear infinite;
+  box-shadow: 0 0 20px #00ffff, inset 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes loading {
+  0%,
+  100% {
+    width: 60%;
+  }
+  50% {
+    width: 90%;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* Message */
+.message {
+  font-size: clamp(12px, 2vw, 16px);
+  color: #00ffff;
+  line-height: 1.8;
+  margin: 40px 0;
+  text-shadow: 0 0 10px #00ffff, 2px 2px 0 #000;
+  animation: blink 3s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0.7;
+  }
+}
+
+/* Back button */
+.back-button {
+  position: relative;
+  padding: 20px 50px;
+  font-size: clamp(14px, 2vw, 18px);
+  font-family: "Press Start 2P", "Courier New", monospace;
+  text-transform: uppercase;
+  color: #000;
+  background: linear-gradient(135deg, #ff00ff, #00ffff, #ffff00);
+  background-size: 200% 200%;
+  border: 4px solid #000;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s;
+  box-shadow: 5px 5px 0 #000, 0 0 20px #ff00ff, 0 0 40px #00ffff;
+  animation: buttonGradient 3s ease infinite;
+  letter-spacing: 0.1em;
+}
+
+@keyframes buttonGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.back-button:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 #000, 0 0 30px #ff00ff, 0 0 60px #00ffff,
+    0 0 90px #ffff00;
+  animation: buttonGradient 1s ease infinite, shake 0.5s ease infinite;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translate(-3px, -3px) rotate(0deg);
+  }
+  25% {
+    transform: translate(-3px, -3px) rotate(-1deg);
+  }
+  75% {
+    transform: translate(-3px, -3px) rotate(1deg);
+  }
+}
+
+.back-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #000, 0 0 15px #ff00ff;
+}
+
+.button-text {
+  position: relative;
+  z-index: 2;
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+.button-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 70%
+  );
+  animation: rotate 3s linear infinite;
+  z-index: 1;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .glitch {
+    font-size: 40px;
+  }
+
+  .feature-name {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+
+  .loading-bar {
+    width: 90%;
+    height: 25px;
+  }
+
+  .message {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .back-button {
+    padding: 15px 35px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .glitch {
+    font-size: 32px;
+  }
+
+  .feature-name {
+    font-size: 14px;
+  }
+
+  .back-button {
+    padding: 12px 30px;
+    font-size: 12px;
+  }
+}
