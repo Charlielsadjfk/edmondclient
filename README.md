@@ -227,7 +227,7 @@ Best practices: 89
 - extract the zip file
 - right click the "edmondclient" folder and press open in terminal.
 - In the terminal, run `python main.py`
-- go to http://127.0.0.1:500
+- go to http://127.0.0.1:5000
 - create an account or use premade test account
   > email: test@example.com
   >
