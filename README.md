@@ -22,7 +22,7 @@ The task is to produce a social network aimed at creating a global community whe
 
 # **30/07/25 - Project Design**
 
-(H2)**OVERVIEW**(H2)
+**OVERVIEW**
 
 Went over website design. E.g colour scheme, typography, icon styles/set, layout/wireframe
 
@@ -220,3 +220,13 @@ Accessibility: 100
 SEO: 100
 
 Best practices: 89
+
+# **USER NOTES**
+
+- Make sure flask and dependecies are installed.
+- In a gitbash terminal, run `python main.py`
+- go to http://localhost:5000/
+- create an account or use premade test account
+  > email: test@example.com
+  >
+  > password: test123
