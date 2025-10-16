@@ -223,10 +223,19 @@ Best practices: 89
 
 # **USER NOTES**
 
-- Make sure flask and dependecies are installed.
-- In a gitbash terminal, run `python main.py`
-- go to http://localhost:5000/
+- download the zip file
+- extract the zip file
+- right click the "edmondclient" folder and press open in terminal.
+- In the terminal, run `python main.py`
+- go to http://127.0.0.1:500
 - create an account or use premade test account
   > email: test@example.com
   >
   > password: test123
+- If not working, make sure flask and dependecies are installed.
+
+# **acknowledgements**
+
+- oepn ai chatgpt
+- claude ai
+- icons8 forma-regular icons
